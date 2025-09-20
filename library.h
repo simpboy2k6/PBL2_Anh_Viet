@@ -1,7 +1,12 @@
 #include <string>
 #include <iostream>
-using namespace std;
-
+#include "User.h"
+#include<fstream>
+#include<vector>
+#include<sstream>
 void welcome();
-void sign_up(string&, string&);
+void sign_up(std::string&, std::string&);
 void log_out();
+void option();
+void readfile(std::ifstream&, std::vector<User>&);
+void showinfo(std::vector<User>&);

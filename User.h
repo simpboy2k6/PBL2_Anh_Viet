@@ -1,10 +1,13 @@
-#include "library.h"
+#include <string>
 class User{
-    protected:
-        string name;
-        string password;
+    public:
+        std::string name;
+        std::string password;
         int userid;
     public:
-        User(string&,string&) ;
+        User(int&, std::string& ,std::string& ) ;
         ~User();
+        void Change_UserName(int&,std::string&);
+        void showinfo();
 };
+
