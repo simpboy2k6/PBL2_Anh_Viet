@@ -1,7 +1,8 @@
-class Admin{
+#include "User.h"   
+class Admin : public User
+{
     private:
-        char* pass;
-        char* name;
+        int idadmin;
     public:
         
 };

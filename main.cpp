@@ -4,19 +4,21 @@ int main(){
     ofstream write;
     ifstream read;
     read.open("qlyUser.txt");
-    write.open("qlyUser.txt",ios::app);
+    write.open("qlyUser.txt",ios::app);             //khai báo các biến dùng cho chương trình
     string s,exit,name,password,choice;
     vector<User> info;
     int id=0;
-    welcome();
+
+    welcome();              // hỏi xem muốn đăng nhập hay tạo tài khoản mới
     cin>>s;
     cin.ignore();
-    readfile(read,info);
+
+    readfile(read,info);    // đọc thông tin các tài khoản hiện có        
     id = info.size();
 
     if(s=="DK"){
         sign_up(name,password);
-        write << name<<","<<password<<","<<++id<<"\n";
+        write << name<<","<<password<<","<<++id<<"\n";       // add tài khoản mới vào file qlyUser.txt
         User u(id,name,password);
         info.push_back(u);
     }
@@ -27,9 +29,9 @@ int main(){
         log_out();
         cin>>exit;
         if(exit=="e") break;                // chạy chương trình
-        option();
-        cin>>choice;
-        if(choice=="Sh"){
+        option();                           // hỏi xem muốn lựa chọn cái gì
+        cin>>choice;                            
+        if(choice=="Sh"){       
             showinfo(info);
         }
     }
