@@ -11,6 +11,6 @@ User::User(int& id, string& name,string& password)
 User::~User(){}
 void User::showinfo()
 {
-    cout<<"Ten:"<<this->name<<";Password: "<<this->password<<";Userid: "<<this->userid<<"\n";
+    cout<<"Ten:"<<this->name<<", Password: "<<this->password<<", Userid: "<<this->userid<<"\n";
 
 }

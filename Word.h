@@ -1,6 +1,10 @@
+#include <string>
 class Word{
     private:
-        char* idVocal;
+        char* idWord;
+        std::string mean;
+        std::string example;
+        
     public:
         
 };
