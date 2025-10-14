@@ -1,12 +1,21 @@
 #include <string>
 class Word{
     private:
-        std::string idWord;
+        int idWord;
+        std::string name;
         std::string mean;
         std::string example;
         std::string pronounce;
+        std::string type;
     public:
-        Word(std::string ="",std::string ="",std::string="",std::string ="");
+        Word(const int =0,std::string ="",std::string ="",std::string="",std::string ="",std::string ="");
         ~Word();
-        std::string getidword();
+        int getidword();
+        void GetInfoWord();
+        void SetName(const std::string);
+        void SetMean(const std::string);
+        void SetExample(const std::string);
+        void SetPronounce(const std::string);
+        void SetType(const std::string);
+        void SetInfoWord(const std::string,const std::string,const std::string,const std::string,const std::string);
 };
