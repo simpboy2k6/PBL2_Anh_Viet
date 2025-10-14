@@ -9,5 +9,6 @@ class User{
         ~User();
         void Change_UserName(int&,std::string&);
         void showinfo();
+        std::string getname();
 };
 

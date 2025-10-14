@@ -2,9 +2,12 @@
 using namespace std;
 int main(){
     ofstream write;
-    ifstream read;
+    ifstream read,voca;
+    
     read.open("qlyUser.txt");
     write.open("qlyUser.txt",ios::app);             //khai báo các biến dùng cho chương trình
+    voca.open("vocabulary.txt");
+
     string s,exit,name,password,choice;
     vector<User> info;
     int id=0;
@@ -23,6 +26,7 @@ int main(){
         info.push_back(u);
     }
     id++;
+
     while(true)
 
     {
@@ -35,6 +39,7 @@ int main(){
             showinfo(info);
         }
     }
+    
     read.close();
     write.close();
 }

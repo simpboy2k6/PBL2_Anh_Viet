@@ -1,6 +1,7 @@
 #include "library.h"
 using namespace std;
 void welcome()
+
 {
     cout<<"Ban muon dang ky hay dang nhap(DK:dang ky, DN:Dang nhap)"<<endl;
 }
@@ -55,3 +56,5 @@ void showinfo(vector<User>& v)
         v[i].showinfo();
     }
 }
+
+

@@ -14,3 +14,6 @@ void User::showinfo()
     cout<<"Ten:"<<this->name<<", Password: "<<this->password<<", Userid: "<<this->userid<<"\n";
 
 }
+string User::getname(){
+    return this->name;
+}
