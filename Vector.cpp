@@ -1,7 +1,7 @@
 #include "Vector.h"
+#include "Word.h"
 #include <iostream>
 using namespace std;
-
 
 // Định nghĩa hàm của vector có kiểu int
 Vector::Vector(int const capacity)
@@ -38,8 +38,6 @@ int& Vector::operator[](int const i){
 
 
 // Định nghĩa hàm của vector có kiểu class Word
-
-
 Vector_Word::Vector_Word(int const capacity)
     :capacity(capacity)
 {
@@ -72,26 +70,24 @@ Word& Vector_Word::operator[](int const i){
 
 }
 
-
-// Định nghĩa hàm của vector có kiểu class User
-
-Vector_User::Vector_User(int const capacity)
+// Định nghĩa hàm của vector có kiểu class String
+Vector_String::Vector_String(int const capacity)
     :capacity(capacity)
 {
-    this->arr = new User[capacity];
+    this->arr = new String[capacity];
 }
-Vector_User::~Vector_User(){}
+Vector_String::~Vector_String(){}
 
-void Vector_User::pb(const User x){
+void Vector_String::pb(const String x){
     *(this->arr+this->curr) = x;
     this->curr ++;
     if(this->curr == this->capacity){
-        User *tmp = new User[this->capacity];
+        String *tmp = new String[this->capacity];
         for(int i=0;i<this->capacity;i++){
             *(tmp+i) = *(this->arr +i);
         }
         delete[] this->arr;
-        this->arr = new User[this->capacity *2];
+        this->arr = new String[this->capacity *2];
         for(int i=0;i<this->curr;i++){
             *(this->arr+i) = *(tmp +i);
         }
@@ -99,7 +95,8 @@ void Vector_User::pb(const User x){
     }
 
 }
-User& Vector_User::operator[](int const i){
+
+String& Vector_String::operator[](int const i){
     if(0<=i && i <= this->curr){
         return *(this->arr + i);
     }else cout<<"Out range\n"<<endl;
@@ -107,5 +104,26 @@ User& Vector_User::operator[](int const i){
 
 }
 
+ostream& operator<<(ostream& os, const Vector_String& vec) {
+    for (int i = 0; i < vec.curr; ++i) {
+        os << vec.arr[i];
+        if (i < vec.curr - 1) {
+            os << ", "; 
+        }
+    }
+    return os;
+}
 
-
+Vector_String& Vector_String::operator=(const Vector_String& vec) {
+    if (this == &vec) {
+        return *this; 
+    }
+    delete[] this->arr; 
+    this->capacity = vec.capacity;
+    this->curr = vec.curr;
+    this->arr = new String[this->capacity];
+    for (int i = 0; i < this->curr; ++i) {
+        this->arr[i] = vec.arr[i]; 
+    }
+    return *this;
+}
