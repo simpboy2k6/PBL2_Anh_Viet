@@ -1,5 +1,15 @@
 #include "library.h"
 using namespace std;
+
+istream& getline(istream& is, String& str) {
+    str = String(""); 
+    char c;
+    while (is.get(c) && c != '\n') {
+        str += c; 
+    }
+    return is;
+}
+
 void welcome()
 
 {
