@@ -1,14 +1,14 @@
-#include <string>
+#include"Word.h"
 class User{
     public:
-        std::string name;
-        std::string password;
+        String name;
+        String password;
         int userid;
     public:
-        User(int&, std::string& ,std::string& ) ;
+        User(int&, String& ,String& ) ;
         ~User();
-        void Change_UserName(int&,std::string&);
+        void Change_UserName(int&,String&);
         void showinfo();
-        std::string getname();
+        String getname();
 };
 

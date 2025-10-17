@@ -1,21 +1,23 @@
-#include <string>
+#include"String.h"
+#include"Vector.h"
+
 class Word{
     private:
         int idWord;
-        std::string name;
-        std::string mean;
-        std::string example;
-        std::string pronounce;
-        std::string type;
+        String name;
+        Vector_String mean;
+        String example;
+        String pronounce;
+        String type;
     public:
-        Word(const int =0,std::string ="",std::string ="",std::string="",std::string ="",std::string ="");
+        Word(const int =0,String ="",String = "",Vector_String,String ="",String ="");
         ~Word();
         int getidword();
         void GetInfoWord();
-        void SetName(const std::string);
-        void SetMean(const std::string);
-        void SetExample(const std::string);
-        void SetPronounce(const std::string);
-        void SetType(const std::string);
-        void SetInfoWord(const std::string,const std::string,const std::string,const std::string,const std::string);
+        void SetName(const String);
+        void SetMean(Vector_String);
+        void SetExample(const String);
+        void SetPronounce(const String);
+        void SetType(const String);
+        void SetInfoWord(const String,const String,Vector_String,const String,const String);
 };

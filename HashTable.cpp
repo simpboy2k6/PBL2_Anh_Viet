@@ -29,9 +29,7 @@ Vector& HashTable::operator[](const int i){
 
 }
 
-
 // Định nghĩa hàm của HashTable có kiểu class Word
-
 HashTable_Word::HashTable_Word(const int capacity):capacity(capacity)
 {
     this->table = new Vector_Word[this->capacity];
