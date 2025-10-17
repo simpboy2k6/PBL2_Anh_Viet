@@ -72,6 +72,9 @@ Word& Vector_Word::operator[](int const i){
 
 }
 
+int Vector_Word::getsize()const{
+    return this->curr;
+}
 
 // Định nghĩa hàm của vector có kiểu class User
 
@@ -105,6 +108,10 @@ User& Vector_User::operator[](int const i){
     }else cout<<"Out range\n"<<endl;
     return *(this->arr);
 
+}
+
+int Vector_User::getsize()const{
+    return this->curr;
 }
 
 

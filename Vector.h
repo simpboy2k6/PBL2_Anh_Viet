@@ -42,5 +42,6 @@ class Vector_User{
         ~Vector_User();
         void pb(const User );
         User& operator[](const int );
+        int getsize()const;
          
 };

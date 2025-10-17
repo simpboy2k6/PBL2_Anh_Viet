@@ -9,21 +9,21 @@ int main(){
     voca.open("vocabulary.txt");
 
     string s,exit,name,password,choice;
-    vector<User> info;
+    Vector_User info;
     int id=0;
-
+    
     welcome();              // hỏi xem muốn đăng nhập hay tạo tài khoản mới
     cin>>s;
     cin.ignore();
 
     readfile(read,info);    // đọc thông tin các tài khoản hiện có        
-    id = info.size();
+    id = info.getsize();
 
     if(s=="DK"){
         sign_up(name,password);
         write << name<<","<<password<<","<<++id<<"\n";       // add tài khoản mới vào file qlyUser.txt
         User u(id,name,password);
-        info.push_back(u);
+        info.pb(u);
     }
     id++;
 

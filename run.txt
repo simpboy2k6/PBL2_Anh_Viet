@@ -1,1 +1,1 @@
-g++ User.cpp main.cpp func.cpp -o run
+g++ User.cpp main.cpp func.cpp Vector.cpp HashTable.cpp Word.cpp -o run

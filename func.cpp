@@ -1,5 +1,7 @@
 #include "library.h"
 using namespace std;
+int countword;
+int key;
 void welcome()
 
 {
@@ -24,7 +26,7 @@ void option()
     cout<<"Ban muon lua chon option nao\n";
     cout<<"Tra tu(Tr),Tra Ngu Phap(NP),Xem Lich Su(LS),show(Sh)\n"; 
 }
-void readfile( ifstream& in,vector<User>& v)
+void readfile( ifstream& in,Vector_User& v)
 {
     string s="1",init;
     int i=0;
@@ -44,13 +46,14 @@ void readfile( ifstream& in,vector<User>& v)
             }else u.userid= stoi(s);
             i++;
         }
-        v.push_back(u);
+        v.pb(u);
     }
     //cout<<"chay trong "<<k<<"lan"<<endl;
 }
-void showinfo(vector<User>& v)
+void showinfo(Vector_User& v)
 {
-    int k=v.size();
+
+    int k=v.getsize();
     for(int i=0;i<k;i++)
     {
         v[i].showinfo();
@@ -58,3 +61,19 @@ void showinfo(vector<User>& v)
 }
 
 
+void Search(HashTable_Word& Dictionary,string& word)
+{
+    countword = 0;
+    for(int i=0;i<word.size();i++){
+        word[i]= tolower(word[i]);
+        countword += (i+1)* ((int)word[i]);
+    } 
+    key = Dictionary.getkey(countword);
+    for(int i=0;i<Dictionary[key].getsize();i++){
+        if(Dictionary[key][i].getidword() == countword){
+            Dictionary[key][i].GetInfoWord();
+            return;
+        }
+    }
+    cout<<"Không có từ bạn tìm kiếm ở trong từ điển này\n";
+}
