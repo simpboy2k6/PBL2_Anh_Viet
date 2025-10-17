@@ -1,5 +1,6 @@
-#pragma once
+#pragma once 
 #include <string>
+
 class Word{
     private:
         int idWord;

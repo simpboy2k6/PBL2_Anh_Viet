@@ -11,3 +11,4 @@ void option();
 void readfile(std::ifstream&, std::vector<User>&);
 void showinfo(std::vector<User>&);
 void readvocal();
+void UI();

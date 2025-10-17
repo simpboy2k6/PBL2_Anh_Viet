@@ -57,4 +57,72 @@ void showinfo(vector<User>& v)
     }
 }
 
+void clearScreen() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
+
+void pauseScreen() {
+    cout << "\n(Nhan Enter de tiep tuc...)" << endl;
+    cin.ignore(10000, '\n'); // Xóa bộ đệm và chờ Enter
+    if (cin.gcount() == 0) {
+        string dummy;
+        getline(cin, dummy);
+    }
+}
+void login(User*& currentUser) {
+    string username, password;
+    cout << "--- DANG NHAP ---\n";
+    cout << "Nhap ten dang nhap: ";
+    getline(cin, username);
+    cout << "Nhap mat khau: ";
+    getline(cin, password);
+
+    for
+
+    if (currentUser != nullptr) {
+        cout << "\nDang nhap thanh cong! Chao mung tro lai, " << currentUser->getUsername() << "!" << endl;
+    } else {
+        cout << "\nTen dang nhap hoac mat khau khong dung." << endl;
+    }
+    pauseScreen();
+}
+
+void LoginMenu(User*& currentUser) {
+    int choice = 0;
+    while (currentUser == nullptr){
+        clearScreen();
+        cout << "+----------------------------------------+\n";
+        cout << "|                                        |\n";
+        cout << "|      CHUONG TRINH TU DIEN ANH-VIET     |\n";
+        cout << "|                                        |\n";
+        cout << "+----------------------------------------+\n\n";
+        cout << "[1] Dang nhap\n";
+        cout << "[2] Dang ky\n";
+        cout << "[3] Thoat\n\n";
+        cout << "Vui long chon: ";
+        
+        string input;
+        getline(cin, input);
+        
+        choice = (input.length() > 0) ? (input.c_str()[0] - '0') : 0;
+
+
+        switch (choice) {
+            case 1: login(); break;
+            case 2: sign_up(); break;
+            case 3: 
+                cout << "Tam biet!" << endl;
+                return; 
+            default:
+                cout << "Lua chon khong hop le. Vui long thu lai." << endl;
+                pauseScreen();
+        }
+    }
+}
+
+
 
