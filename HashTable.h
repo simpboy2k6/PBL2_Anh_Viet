@@ -1,3 +1,4 @@
+#pragma once
 #include "Vector.h"
 
 // Đây là class của HashTable có kiểu int
@@ -25,4 +26,18 @@ class HashTable_Word{
         int getkey(const int )const;
         void hash(Word&);
         Vector_Word& operator[](const int );
+};
+
+// Đây là class của HashTable có kiểu class User
+
+class HashTable_User{
+    private:
+        int capacity;
+        Vector_User *table;
+    public:
+        HashTable_User(const int x=100);
+        ~HashTable_User();
+        int getkey(const int )const;
+        void hash(User&);
+        Vector_User& operator[](const int );
 };

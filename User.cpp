@@ -8,6 +8,11 @@ User::User(int& id, string& name,string& password)
     this->userid = id;
 }
 
+User::User()
+    :userid(0),name(""),password("")
+{
+
+}
 User::~User(){}
 void User::showinfo()
 {
@@ -16,4 +21,8 @@ void User::showinfo()
 }
 string User::getname(){
     return this->name;
+}
+
+int User::getidUser(){
+    return this->userid;
 }

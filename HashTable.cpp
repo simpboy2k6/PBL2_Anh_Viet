@@ -57,6 +57,36 @@ Vector_Word& HashTable_Word::operator[](const int i){
     }
 
 }
+
+// Định nghĩa hàm của HashTable có kiểu class User
+
+HashTable_User::HashTable_User(const int capacity):capacity(capacity)
+{
+    this->table = new Vector_User[this->capacity];
+}
+
+HashTable_User::~HashTable_User()
+{}
+
+void HashTable_User::hash(User& x){
+    (this->table + this->getkey(x.getidUser()))->pb(x);
+}
+
+int HashTable_User::getkey(const int x) const{
+    return x % this->capacity;
+}
+
+Vector_User& HashTable_User::operator[](const int i){
+    if(0<=i && i<100){
+        return *(this->table + i);
+    }else{
+        cout<<"Out of HashTable\n";
+        return *(this->table);
+    }
+
+}
+
+
 /*int main(){
     HashTable_Word H;
     Word W(1,"abandon", "verb", "từ bỏ", "The sailors abandoned the sinking ship", "/əˈbændən/");

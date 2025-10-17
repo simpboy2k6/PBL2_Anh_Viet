@@ -1,5 +1,6 @@
+#pragma once
 #include "Word.h"
-
+#include "User.h"
 // Đây là class của vector có kiểu int
 class Vector{
     private:
@@ -26,5 +27,20 @@ class Vector_Word{
         ~Vector_Word();
         void pb(const Word );
         Word& operator[](const int );
+         
+};
+
+
+// Đây là class của vector có kiểu class User
+class Vector_User{
+    private:
+        int capacity;       
+        int curr=0;         
+        User *arr;           
+    public:
+        Vector_User(const int =100);
+        ~Vector_User();
+        void pb(const User );
+        User& operator[](const int );
          
 };
