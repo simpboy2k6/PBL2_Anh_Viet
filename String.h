@@ -16,4 +16,5 @@ public:
     const char* c_str();
     bool operator==(const String&);
     friend ostream& operator<<(ostream&, const String&);
+    String& operator+=(char);
 };

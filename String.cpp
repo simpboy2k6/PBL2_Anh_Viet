@@ -74,3 +74,14 @@ std::ostream& operator<<(std::ostream& os, const String& s) { // Đa năng hóa 
     os << s.data;
     return os;
 }
+
+String& String::operator+=(char c){ // Đa năng hóa toán tử += 
+    char* newData = new char[len + 2]; 
+    StringCopy(newData, data);
+    newData[len] = c;
+    newData[len + 1] = '\0';
+    delete[] data;
+    data = newData;
+    len++;
+    return *this;
+}
