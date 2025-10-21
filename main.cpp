@@ -1,5 +1,9 @@
 #include "library.h"
 using namespace std;
+
+User* currentUser = nullptr;
+vector<User> UserList;
+
 int main(){
     ofstream write;
     ifstream read,voca;
@@ -9,8 +13,8 @@ int main(){
     voca.open("vocabulary.txt");
 
     string s,exit,name,password,choice;
-    vector<User> info;
     int id=0;
+    
     
     read.close();
     write.close();

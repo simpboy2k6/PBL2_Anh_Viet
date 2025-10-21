@@ -1,10 +1,11 @@
 #include "library.h"
 using namespace std;
-void welcome()
+
+/*void welcome()
 
 {
     cout<<"Ban muon dang ky hay dang nhap(DK:dang ky, DN:Dang nhap)"<<endl;
-}
+}*/
 
 void sign_up(string& name, string& password)
 {
@@ -73,6 +74,7 @@ void pauseScreen() {
         getline(cin, dummy);
     }
 }
+
 void login(User*& currentUser) {
     string username, password;
     cout << "--- DANG NHAP ---\n";
@@ -81,7 +83,14 @@ void login(User*& currentUser) {
     cout << "Nhap mat khau: ";
     getline(cin, password);
 
-    for
+    User NewUser(ID,username, password);
+    
+    for (const auto& NewUser : UserList) {
+        if (NewUser.getUsername() == username && NewUser.getPassword() == password) {
+            
+            break;
+        }
+    }   
 
     if (currentUser != nullptr) {
         cout << "\nDang nhap thanh cong! Chao mung tro lai, " << currentUser->getUsername() << "!" << endl;
