@@ -2,6 +2,7 @@
 using namespace std;
 int countword;
 int key;
+Word W;
 void welcome()
 
 {
@@ -32,7 +33,7 @@ void readfile( ifstream& in,Vector_User& v)
     int i=0;
     User u(i,init,init);
     //int k=0;
-    while(in.eof()==false){             // kiểm tra xem luồng stream trong file in đã hết chưa
+    while(true){             // kiểm tra xem luồng stream trong file in đã hết chưa
         //k++;
         getline(in,s);
         if(s=="")break;
@@ -66,14 +67,43 @@ void Search(HashTable_Word& Dictionary,string& word)
     countword = 0;
     for(int i=0;i<word.size();i++){
         word[i]= tolower(word[i]);
-        countword += (i+1)* ((int)word[i]);
-    } 
-    key = Dictionary.getkey(countword);
+        countword += (i+1)* ((int)word[i]);         // chuyển đổi dạng string thành tổng các chữ số 
+    }                                               // theo công thức 
+
+    key = Dictionary.getkey(countword);             // lấy key để hash
     for(int i=0;i<Dictionary[key].getsize();i++){
-        if(Dictionary[key][i].getidword() == countword){
-            Dictionary[key][i].GetInfoWord();
+        if(Dictionary[key][i].getidword() == countword){            
+            Dictionary[key][i].GetInfoWord();           
             return;
         }
     }
     cout<<"Không có từ bạn tìm kiếm ở trong từ điển này\n";
+}
+
+void readvocal(HashTable_Word& Dictionary,ifstream& vocabulary)
+{
+    int i;
+    string s;
+    while(true){
+        getline(vocabulary,s);
+        if(s=="")break;
+        i=0;
+        stringstream ss(s);
+        while(getline(ss,s,',')){
+            if(i==1){
+                W.SetName(s);
+            }else if(i==3){
+                W.SetMean(s);
+            }else if(i==2){
+                W.SetType(s);
+            }else if(i==4){
+                W.SetExample(s);
+            }else if(i==5){
+                W.SetPronounce(s);
+            }
+            i++;
+        }
+        Dictionary.hash(W);
+    }
+
 }

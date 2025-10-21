@@ -11,5 +11,5 @@ void log_out();
 void option();
 void readfile(std::ifstream&, Vector_User&);
 void showinfo(Vector_User&);
-void readvocal();
+void readvocal(HashTable_Word&, std::ifstream&);
 void Search(HashTable_Word&, std::string&);

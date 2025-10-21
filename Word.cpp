@@ -1,6 +1,7 @@
 #include "Word.h"
 #include <iostream>
 using namespace std;
+int countname;
 Word::Word(const int x,string a,string b,string c,string d,string e)
     :idWord(x),name(a),type(b),mean(c),example(d),pronounce(e)
 {}
@@ -22,6 +23,11 @@ void Word::SetInfoWord(const string a,const string b, const string c,const strin
     
 {
     this->name =a;this->type=b;this->mean = c;this->example = d;this->pronounce = e;
+    countname = 0;
+    for(int i=0;i<a.size();i++){
+        countname +=((int) a[i])*(i+1);
+    }
+    this->idWord = countname;
 }
 void Word::SetMean(const string a){
     this->mean=a;
@@ -31,6 +37,11 @@ void Word::SetExample(const string a){
 }
 void Word::SetName(const string a){
     this->name=a;
+    countname = 0;
+    for(int i=0;i<a.size();i++){
+        countname +=((int) a[i])*(i+1);
+    }
+    this->idWord = countname;
 }
 void Word::SetPronounce(const string a){
     this->pronounce=a;

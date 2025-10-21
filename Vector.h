@@ -27,6 +27,7 @@ class Vector_Word{
         ~Vector_Word();
         void pb(const Word );
         Word& operator[](const int );
+        int getsize()const;
          
 };
 
