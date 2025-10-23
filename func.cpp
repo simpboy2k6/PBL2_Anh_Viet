@@ -1,8 +1,10 @@
 #include "library.h"
 using namespace std;
+// các biến được sử dụng lại nhiều lần
 int countword;
 int key;
 Word W;
+
 void welcome()
 
 {
@@ -106,4 +108,17 @@ void readvocal(HashTable_Word& Dictionary,ifstream& vocabulary)
         Dictionary.hash(W);
     }
 
+}
+
+
+void luu_vocalbulary(HashTable_Word& Dictionary, ofstream& write){
+    for(int i=0; i <Dictionary.getcapacity();i++){
+        for(int j=0;j<Dictionary[i].getsize();j++){
+            write<<Dictionary[i][j].GetName()<<",";
+            write<<Dictionary[i][j].GetType()<<",";
+            write<<Dictionary[i][j].GetMean()<<",";
+            write<<Dictionary[i][j].GetExample()<<",";
+            write<<Dictionary[i][j].GetPronounce()<<"\n";
+        }
+    }
 }

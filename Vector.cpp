@@ -115,4 +115,49 @@ int Vector_User::getsize()const{
 }
 
 
+// Định nghĩa hàm của vector có kiểu string
+Vector_String::Vector_String(int const capacity)
+    :capacity(capacity)
+{
+    this->arr = new string[capacity];
+}
+Vector_String::~Vector_String(){}
+
+void Vector_String::pb(const string x){
+    *(this->arr+this->curr) = x;
+    this->curr ++;
+    if(this->curr == this->capacity){
+        string *tmp = new string[this->capacity];
+        for(int i=0;i<this->capacity;i++){
+            *(tmp+i) = *(this->arr +i);
+        }
+        delete[] this->arr;
+        this->arr = new string[this->capacity *2];
+        for(int i=0;i<this->curr;i++){
+            *(this->arr+i) = *(tmp +i);
+        }
+        delete[] tmp;
+    }
+
+}
+string& Vector_String::operator[](int const i){
+    if(0<=i && i <= this->curr){
+        return *(this->arr + i);
+    }else cout<<"Out range\n"<<endl;
+    return *(this->arr);
+
+}
+
+int Vector_String::getsize()const{
+    return this->curr;
+}
+
+
+/*int main(){
+    Vector_String ss;
+    ss.pb("ok");
+    ss.pb("con cac");
+    cout<<ss[0]<<" "<<ss[1]<<endl;
+}*/
+
 

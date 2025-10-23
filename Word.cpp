@@ -50,6 +50,22 @@ void Word::SetType(const string a){
     this->type=a;
 }
 
+string Word::GetName()const{
+    return this->name;
+}
+string Word::GetMean()const{
+    return this->mean;
+}
+string Word::GetExample()const{
+    return this->example;
+}
+string Word::GetPronounce()const{
+    return this->pronounce;
+}
+string Word::GetType()const{
+    return this->type;
+}
+
 
 
 

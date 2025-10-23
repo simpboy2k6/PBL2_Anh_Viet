@@ -19,4 +19,9 @@ class Word{
         void SetPronounce(const std::string);
         void SetType(const std::string);
         void SetInfoWord(const std::string,const std::string,const std::string,const std::string,const std::string);
+        std::string GetName() const ;
+        std::string GetMean()const ;
+        std::string GetExample()const;
+        std::string GetPronounce() const ;
+        std::string GetType()const;
 };

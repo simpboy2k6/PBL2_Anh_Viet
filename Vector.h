@@ -31,7 +31,6 @@ class Vector_Word{
          
 };
 
-
 // Đây là class của vector có kiểu class User
 class Vector_User{
     private:
@@ -46,3 +45,18 @@ class Vector_User{
         int getsize()const;
          
 };
+// Đây là class của vector có kiểu string
+class Vector_String{
+    private:
+        int capacity;       
+        int curr=0;         
+        std::string *arr;           
+    public:
+        Vector_String(const int =100);
+        ~Vector_String();
+        void pb(const std::string );
+        std::string& operator[](const int );
+        int getsize()const;
+         
+};
+

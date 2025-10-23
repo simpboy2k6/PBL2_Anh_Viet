@@ -1,13 +1,13 @@
 #include "library.h"
 using namespace std;
 int main(){
-    ofstream write;
+    ofstream write,luu_dictionary;
     ifstream read,voca;
     
     read.open("qlyUser.txt");
     write.open("qlyUser.txt",ios::app);             //khai báo các biến dùng cho chương trình
     voca.open("vocabulary.txt");
-
+    luu_dictionary.open("dic.txt");
     string s,exit,name,password,choice,word;
     Vector_User info;
     HashTable_Word Dictionary;
@@ -28,9 +28,8 @@ int main(){
         info.pb(u);
     }
     id++;
-
     while(true)
-
+    
     {
         log_out();
         cin>>exit;
@@ -45,7 +44,9 @@ int main(){
             Search(Dictionary,word);
         }
     }
-    
+    luu_vocalbulary(Dictionary,luu_dictionary);
     read.close();
     write.close();
+    voca.close();
+    luu_dictionary.close();
 }

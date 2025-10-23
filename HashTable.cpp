@@ -48,6 +48,9 @@ int HashTable_Word::getkey(const int x)const{
     return x % this->capacity;
 }
 
+int HashTable_Word::getcapacity(){
+    return this->capacity;
+}
 Vector_Word& HashTable_Word::operator[](const int i){
     if(0<=i && i<100){
         return *(this->table + i);

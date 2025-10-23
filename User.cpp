@@ -1,17 +1,17 @@
 #include "User.h"
 #include<iostream>
 using namespace std;
-User::User(int& id, string& name,string& password)
+User::User(const int x, const string name,const string password)
 {
     this->name = name;
     this->password = password;
-    this->userid = id;
+    this->userid = x;
 }
 
-User::User()
-    :userid(0),name(""),password("")
-{
-
+User::User(){
+    this->name = "";
+    this->password = "";
+    this->userid = 0;
 }
 User::~User(){}
 void User::showinfo()
@@ -26,3 +26,4 @@ string User::getname(){
 int User::getidUser(){
     return this->userid;
 }
+

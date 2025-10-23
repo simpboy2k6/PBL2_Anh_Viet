@@ -26,6 +26,7 @@ class HashTable_Word{
         int getkey(const int )const;
         void hash(Word&);
         Vector_Word& operator[](const int );
+        int getcapacity();
 };
 
 // Đây là class của HashTable có kiểu class User
