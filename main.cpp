@@ -1,5 +1,6 @@
 #include "library.h"
 using namespace std;
+
 int main(){
     ofstream write,luu_dictionary;
     ifstream read,voca;
@@ -44,6 +45,7 @@ int main(){
             Search(Dictionary,word);
         }
     }
+
     luu_vocalbulary(Dictionary,luu_dictionary);
     read.close();
     write.close();
