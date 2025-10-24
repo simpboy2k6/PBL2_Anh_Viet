@@ -1,6 +1,7 @@
 #include "User.h"
 #include<iostream>
 using namespace std;
+
 User::User(int& id, string& name,string& password)
 {
     this->name = name;
@@ -25,4 +26,12 @@ string User::getUsername(){
 
 int User::getidUser(){
     return this->userid;
+}
+
+void User::addHistory(const std::string& word) {
+    this->history.pb(word);
+}
+
+const Vector_String& User::getHistory(){
+    return this->history;
 }

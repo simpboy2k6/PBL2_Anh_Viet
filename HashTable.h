@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector.h"
+#include"Vector_User.h"
 
 // Đây là class của HashTable có kiểu int
 class HashTable{
