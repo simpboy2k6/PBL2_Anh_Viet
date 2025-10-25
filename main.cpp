@@ -21,7 +21,12 @@ int main(){
     readfile(read,info);    // đọc thông tin các tài khoản hiện có  
     readvocal(Dictionary,voca);  // đọc các từ vựng lưu vào từ điển      
     id = info.getsize();
-
+    for(int i=0;i<100;i++){
+        cout<<"iiiiiiii "<<i<<endl;
+        for(int j=0;j<Dictionary[i].getsize();j++){
+            cout<<Dictionary[i][j].getidword()<<" "<<Dictionary[i][j].GetName()<<endl;
+        }
+    }
     if(s=="DK"){
         sign_up(name,password);
         write << name<<","<<password<<","<<++id<<"\n";       // add tài khoản mới vào file qlyUser.txt

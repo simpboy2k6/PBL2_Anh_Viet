@@ -74,7 +74,8 @@ void Search(HashTable_Word& Dictionary,string& word)
 
     key = Dictionary.getkey(countword);             // lấy key để hash
     for(int i=0;i<Dictionary[key].getsize();i++){
-        if(Dictionary[key][i].getidword() == countword){            
+        if(Dictionary[key][i].getidword() == countword && word == Dictionary[key][i].GetName()){  
+            //cout<<"id find:"<<countword<<endl;          
             Dictionary[key][i].GetInfoWord();           
             return;
         }

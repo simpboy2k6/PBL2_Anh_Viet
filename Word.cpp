@@ -12,6 +12,7 @@ int Word::getidword(){
 }
 
 void Word::GetInfoWord(){
+    //cout<<"id:"<<this->idWord<<endl;
     cout<<this->name<<":\n";
     cout<<"Ý nghĩa:"<<this->mean<<"\n";
     cout<<"Loại:"<<this->type<<"\n";
