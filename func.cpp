@@ -1,7 +1,7 @@
 #include "library.h"
 using namespace std;
 // các biến được sử dụng lại nhiều lần
-int countword;
+int countword,value;
 int key;
 Word W;
 /*void welcome()
@@ -239,17 +239,23 @@ void viewHistory(User*& currentUser) {
 // T cập nhật hàm Search để lưu lịch sử tìm kiếm vào User hiện tại
 void Search(HashTable_Word& Dictionary, string& word, User*& currentUser)
 {
-    countword = 0;
+    countword = 0;value =0;
     for(int i=0;i<word.size();i++){
         word[i]= tolower(word[i]);
-        countword += (i+1)* ((int)word[i]);         // chuyển đổi dạng string thành tổng các chữ số 
+        value += (i+1)* ((int)word[i]);         // chuyển đổi dạng string thành tổng các chữ số 
     }                                               // theo công thức 
 
-    key = Dictionary.getkey(countword);             // lấy key để hash
-    countword = 0;
+    key = Dictionary.getkey(value);             // lấy key để hash
+    /*for(int i=0;i<Dictionary.getcapacity();i++){
+        cout<<"iiiiii:"<<i<<endl;
+        for(int j=0;j<Dictionary[i].getsize();j++){
+            cout<<Dictionary[i][j].getidword()<<endl;
+            cout<<Dictionary[i][j].GetName()<<endl;
+        }
+    }*/
     for(int i=0;i<Dictionary[key].getsize();i++){
-        if(Dictionary[key][i].getidword() == countword && word == Dictionary[key][i].GetName()){  
-            //cout<<"id find:"<<countword<<endl;          
+        if(Dictionary[key][i].getidword() == value && word == Dictionary[key][i].GetName()){  
+                   
             Dictionary[key][i].GetInfoWord();
             currentUser->addHistory(word); // Lưu từ tìm kiếm vào lịch sử của User hiện tại
             countword++;         

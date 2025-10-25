@@ -31,7 +31,7 @@ int main(){
     readfile(read,UserList);    // đọc thông tin các tài khoản hiện có  
     readvocal(Dictionary,voca);  // đọc các từ vựng lưu vào từ điển      
     id = UserList.getSize();
-
+    
 //    id = info.getsize();
 
 /*   if(s=="DK"){
