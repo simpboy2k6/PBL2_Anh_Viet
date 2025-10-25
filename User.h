@@ -9,8 +9,7 @@ class User{
         int userid;
         Vector_String history;
     public:
-        User(const int, const std::string ="" ,const std::string ="" );
-        User(int&, std::string& ,std::string&) ;
+        User(int&, std::string& ,std::string&);
         User();
         ~User();
         void Change_UserName(int&,std::string&);
@@ -20,5 +19,5 @@ class User{
         int getidUser();
         std::string getPassword(){ return this->password;}
         void addHistory(const std::string& word); 
-        const Vector_String& getHistory();
+        Vector_String& getHistory();
 };
