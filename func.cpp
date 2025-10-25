@@ -4,8 +4,6 @@ using namespace std;
 int countword;
 int key;
 Word W;
-
-
 /*void welcome()
 
 {
@@ -248,14 +246,18 @@ void Search(HashTable_Word& Dictionary, string& word, User*& currentUser)
     }                                               // theo công thức 
 
     key = Dictionary.getkey(countword);             // lấy key để hash
+    countword = 0;
     for(int i=0;i<Dictionary[key].getsize();i++){
         if(Dictionary[key][i].getidword() == countword && word == Dictionary[key][i].GetName()){  
             //cout<<"id find:"<<countword<<endl;          
             Dictionary[key][i].GetInfoWord();
-            currentUser->addHistory(word); // Lưu từ tìm kiếm vào lịch sử của User hiện tại              
+            currentUser->addHistory(word); // Lưu từ tìm kiếm vào lịch sử của User hiện tại
+            countword++;         
         }
     }
-    cout<<"Không có từ bạn tìm kiếm ở trong từ điển này\n";
+    if(countword==0){
+        cout<<"Không có từ bạn tìm kiếm ở trong từ điển này\n";
+    }
 }
 
 void readvocal(HashTable_Word& Dictionary,ifstream& vocabulary)

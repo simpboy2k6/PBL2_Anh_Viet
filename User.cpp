@@ -32,6 +32,6 @@ void User::addHistory(const std::string& word) {
     this->history.pb(word);
 }
 
-const Vector_String& User::getHistory(){
+Vector_String& User::getHistory(){
     return this->history;
 }
