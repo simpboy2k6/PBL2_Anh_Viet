@@ -7,7 +7,7 @@ chao,1,6
 hello world,basau,7
 chao thk lo,toingu,8
 Hao lo,3508,9
-khoa ,saurieng,10
+khoa ,saurieng,102
 cho,123,11
 okok,2345,12
 kkk,2121,13

@@ -1,7 +1,7 @@
 #pragma once
 #include "Word.h"
-#include "User.h"
 // Đây là class của vector có kiểu int
+
 class Vector{
     private:
         int capacity;       //  khả năng chứa
@@ -31,20 +31,6 @@ class Vector_Word{
          
 };
 
-// Đây là class của vector có kiểu class User
-class Vector_User{
-    private:
-        int capacity;       
-        int curr=0;         
-        User *arr;           
-    public:
-        Vector_User(const int =100);
-        ~Vector_User();
-        void pb(const User );
-        User& operator[](const int );
-        int getsize()const;
-         
-};
 // Đây là class của vector có kiểu string
 class Vector_String{
     private:
@@ -59,4 +45,5 @@ class Vector_String{
         int getsize()const;
          
 };
+
 

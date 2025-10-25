@@ -1,7 +1,16 @@
 #include "library.h"
 using namespace std;
 
+
+
+
 int main(){
+
+    SetConsoleOutputCP(65001); // Đặt code page của output (cout)
+    SetConsoleCP(65001);       // Đặt code page của input (cin)
+    
+    User* currentUser = nullptr;
+    
     ofstream write,luu_dictionary;
     ifstream read,voca;
     
@@ -10,24 +19,22 @@ int main(){
     voca.open("vocabulary.txt");
     luu_dictionary.open("dic.txt");
     string s,exit,name,password,choice,word;
-    Vector_User info;
+    Vector_User UserList;
     HashTable_Word Dictionary;
     int id=0;
     
-    welcome();              // hỏi xem muốn đăng nhập hay tạo tài khoản mới
-    cin>>s;
-    cin.ignore();
-
-    readfile(read,info);    // đọc thông tin các tài khoản hiện có  
+//    int id=0;
+    
+//    welcome();              // hỏi xem muốn đăng nhập hay tạo tài khoản mới
+//    cin>>s;
+//    cin.ignore();
+    readfile(read,UserList);    // đọc thông tin các tài khoản hiện có  
     readvocal(Dictionary,voca);  // đọc các từ vựng lưu vào từ điển      
-    id = info.getsize();
-    for(int i=0;i<100;i++){
-        cout<<"iiiiiiii "<<i<<endl;
-        for(int j=0;j<Dictionary[i].getsize();j++){
-            cout<<Dictionary[i][j].getidword()<<" "<<Dictionary[i][j].GetName()<<endl;
-        }
-    }
-    if(s=="DK"){
+    id = UserList.getSize();
+
+//    id = info.getsize();
+
+/*   if(s=="DK"){
         sign_up(name,password);
         write << name<<","<<password<<","<<++id<<"\n";       // add tài khoản mới vào file qlyUser.txt
         User u(id,name,password);
@@ -49,6 +56,18 @@ int main(){
             cin>>word;
             Search(Dictionary,word);
         }
+    }*/
+
+    while(true) {
+        if (currentUser == nullptr) {
+            LoginMenu(currentUser, UserList,id,write);
+        }
+
+        if (currentUser == nullptr) {
+            break; 
+        }
+
+        MainMenu(currentUser, Dictionary);
     }
 
     luu_vocalbulary(Dictionary,luu_dictionary);
