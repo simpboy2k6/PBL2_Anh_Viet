@@ -4,11 +4,10 @@ using namespace std;
 int countword,value;
 int key;
 Word W;
-/*void welcome()
+string HistoryDir = "User_history/";
+ifstream CurrentUserHistoryDirRead;
+ofstream CurrentUserHistoryDirWrite;
 
-{
-    cout<<"Ban muon dang ky hay dang nhap(DK:dang ky, DN:Dang nhap)"<<endl;
-}*/
 void option()
 {
     cout<<"Ban muon lua chon option nao\n";
@@ -84,7 +83,6 @@ void sign_up(Vector_User& UserList, ofstream& write, int& id)
         UserList.pb(u);
 
         cout << "Dang ky thanh cong!" << endl;
-
     } else {
         cout << "Mat khau khong khop. Vui long thu lai." << endl;
     }
@@ -115,13 +113,23 @@ void login(User*& currentUser, Vector_User& UserList, int& id) {
 
     if (currentUser != nullptr) {
         cout << "\nDang nhap thanh cong! Chao mung tro lai, " << currentUser->getUsername() << "!" << endl;
+
+        string s = HistoryDir+currentUser->getUsername();
+        CurrentUserHistoryDirRead.open(s);      // mở file history của User 
+
+        //cout<<"check name:"<<s<<endl;
+        while(getline(CurrentUserHistoryDirRead,s)){
+            currentUser->addHistory(s);         // đọc dữ liệu trong file đó
+        }
+        CurrentUserHistoryDirRead.close();          // đóng file history của User
+
     } else{
         cout << "\nTen dang nhap hoac mat khau khong dung." << endl;
     }
     pauseScreen();
 }
 
-void LoginMenu(User*& currentUser, Vector_User& UserList, int& id,ofstream& write) {
+void LoginMenu(User*& currentUser, Vector_User& UserList, int& id, ofstream& write) {
     int choice = 0;
     while (currentUser == nullptr){
         clearScreen();
@@ -136,7 +144,7 @@ void LoginMenu(User*& currentUser, Vector_User& UserList, int& id,ofstream& writ
         cout << "Vui long chon: ";
         
         string input;
-        getline(cin, input);
+        getline(cin, input);       // nhập choice
         
         choice = (input.length() > 0) ? (input.c_str()[0] - '0') : 0;
 
@@ -146,6 +154,7 @@ void LoginMenu(User*& currentUser, Vector_User& UserList, int& id,ofstream& writ
             case 2: sign_up(UserList, write, id); break;
             case 3: 
                 cout << "Tam biet!" << endl;
+
                 return;
             default:
                 cout << "Lua chon khong hop le. Vui long thu lai." << endl;
@@ -154,8 +163,9 @@ void LoginMenu(User*& currentUser, Vector_User& UserList, int& id,ofstream& writ
     }
 }
 
-void MainMenu(User*& currentUser, HashTable_Word& Dictionary) {
+void MainMenu(User*& currentUser, HashTable<Word>& Dictionary) {
     int choice = 0;
+    string s;
     while (true) {
         clearScreen();
         cout << "+----------------------------------------+\n";
@@ -201,6 +211,17 @@ void MainMenu(User*& currentUser, HashTable_Word& Dictionary) {
                 pauseScreen();
                 break;
             case 4:
+                s = HistoryDir + currentUser->getUsername();
+                CurrentUserHistoryDirWrite.open(s);             // mở file history của User để ghi
+                //cout<<"check name:"<<s<<endl;
+                
+                for(int i=0;i<currentUser->getHistory().getsize();i++){
+                    CurrentUserHistoryDirWrite << currentUser->getHistory()[i]<<"\n"; // ghi vào file history của user
+                    //cout<< currentUser->getHistory()[i]<<"\n";
+                }
+                CurrentUserHistoryDirWrite.close();
+
+                currentUser->getHistory().Erase_Vector();  // xóa đi dữ liệu của Vector String trong currentUser 
                 currentUser = nullptr;
                 cout << "Dang xuat thanh cong!" << endl;
                 pauseScreen();
@@ -211,7 +232,6 @@ void MainMenu(User*& currentUser, HashTable_Word& Dictionary) {
         }
     }
 }
-
 // Hàm xem lịch sử tra cứu
 void viewHistory(User*& currentUser) {
     clearScreen();
@@ -220,7 +240,7 @@ void viewHistory(User*& currentUser) {
     cout << "+----------------------------------------+\n\n";
 
     if (currentUser != nullptr) {
-        Vector_String& historyList = currentUser->getHistory(); // Lấy danh sách lịch sử
+        Vector<string>& historyList = currentUser->getHistory(); // Lấy danh sách lịch sử
         if (historyList.getsize() == 0) {
             cout << "Ban chua tra cuu tu nao.\n";
         } else {
@@ -237,7 +257,7 @@ void viewHistory(User*& currentUser) {
 }
 
 // T cập nhật hàm Search để lưu lịch sử tìm kiếm vào User hiện tại
-void Search(HashTable_Word& Dictionary, string& word, User*& currentUser)
+void Search(HashTable<Word>& Dictionary, string& word, User*& currentUser)
 {
     countword = 0;value =0;
     for(int i=0;i<word.size();i++){
@@ -254,10 +274,10 @@ void Search(HashTable_Word& Dictionary, string& word, User*& currentUser)
         }
     }*/
     for(int i=0;i<Dictionary[key].getsize();i++){
-        if(Dictionary[key][i].getidword() == value && word == Dictionary[key][i].GetName()){  
+        if(Dictionary[key][i].GetId() == value && word == Dictionary[key][i].GetName()){  
                    
             Dictionary[key][i].GetInfoWord();
-            currentUser->addHistory(word); // Lưu từ tìm kiếm vào lịch sử của User hiện tại
+            if(countword==0)currentUser->addHistory(word); // Lưu từ tìm kiếm vào lịch sử của User hiện tại
             countword++;         
         }
     }
@@ -266,7 +286,7 @@ void Search(HashTable_Word& Dictionary, string& word, User*& currentUser)
     }
 }
 
-void readvocal(HashTable_Word& Dictionary,ifstream& vocabulary)
+void readvocal(HashTable<Word>& Dictionary,ifstream& vocabulary)
 {
     int i;
     string s;
@@ -294,7 +314,7 @@ void readvocal(HashTable_Word& Dictionary,ifstream& vocabulary)
 
 }
 
-void luu_vocalbulary(HashTable_Word& Dictionary, ofstream& write){
+void luu_vocalbulary(HashTable<Word>& Dictionary, ofstream& write){
     for(int i=0; i <Dictionary.getcapacity();i++){
         for(int j=0;j<Dictionary[i].getsize();j++){
             write<<Dictionary[i][j].GetName()<<",";

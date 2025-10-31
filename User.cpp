@@ -24,7 +24,7 @@ string User::getUsername(){
     return this->name;
 }
 
-int User::getidUser(){
+int User::GetId() const{
     return this->userid;
 }
 
@@ -32,6 +32,6 @@ void User::addHistory(const std::string& word) {
     this->history.pb(word);
 }
 
-Vector_String& User::getHistory(){
+Vector<string>& User::getHistory(){
     return this->history;
 }

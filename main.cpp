@@ -8,7 +8,7 @@ int main(){
 
     SetConsoleOutputCP(65001); // Đặt code page của output (cout)
     SetConsoleCP(65001);       // Đặt code page của input (cin)
-    
+   
     User* currentUser = nullptr;
     
     ofstream write,luu_dictionary;
@@ -20,14 +20,9 @@ int main(){
     luu_dictionary.open("dic.txt");
     string s,exit,name,password,choice,word;
     Vector_User UserList;
-    HashTable_Word Dictionary;
+    HashTable<Word> Dictionary;
     int id=0;
     
-//    int id=0;
-    
-//    welcome();              // hỏi xem muốn đăng nhập hay tạo tài khoản mới
-//    cin>>s;
-//    cin.ignore();
     readfile(read,UserList);    // đọc thông tin các tài khoản hiện có  
     readvocal(Dictionary,voca);  // đọc các từ vựng lưu vào từ điển      
     id = UserList.getSize();
@@ -66,7 +61,6 @@ int main(){
         if (currentUser == nullptr) {
             break; 
         }
-
         MainMenu(currentUser, Dictionary);
     }
 

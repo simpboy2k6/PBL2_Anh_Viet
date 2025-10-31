@@ -7,7 +7,7 @@ class User{
         std::string name;
         std::string password;
         int userid;
-        Vector_String history;
+        Vector<std::string> history;
     public:
         User(int&, std::string& ,std::string&);
         User();
@@ -16,8 +16,8 @@ class User{
         void Change_Password(int&,std::string&);
         void showinfo();
         std::string getUsername();
-        int getidUser();
+        int GetId() const ;
         std::string getPassword(){ return this->password;}
         void addHistory(const std::string& word); 
-        Vector_String& getHistory();
+        Vector<std::string>& getHistory();
 };

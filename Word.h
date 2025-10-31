@@ -1,6 +1,6 @@
 #pragma once 
 #include <string>
-
+#include<iostream>
 class Word{
     private:
         int idWord;
@@ -12,7 +12,7 @@ class Word{
     public:
         Word(const int =0,std::string ="",std::string ="",std::string="",std::string ="",std::string ="");
         ~Word();
-        int getidword();
+        int GetId() const;
         void GetInfoWord();
         void SetName(const std::string);
         void SetMean(const std::string);

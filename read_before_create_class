@@ -1,0 +1,1 @@
+Mỗi class nếu có thuộc tính là id thì phải có hàm là đặt đúng như tên là GetId() để đồng bộ với HashTable

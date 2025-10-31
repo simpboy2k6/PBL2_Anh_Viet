@@ -7,7 +7,7 @@ Word::Word(const int x,string a,string b,string c,string d,string e)
 {}
 Word::~Word(){}
 
-int Word::getidword(){
+int Word::GetId() const{
     return this->idWord;
 }
 
