@@ -1,6 +1,5 @@
 #pragma once
 #include "Vector.h"
-#include"Vector_User.h"
 
 template <typename T>
 class HashTable{

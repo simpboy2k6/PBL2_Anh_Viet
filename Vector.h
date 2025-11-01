@@ -14,7 +14,7 @@ class Vector{
         T& operator[](const int );
         void Erase_Vector();
         int getsize()const;
-         
+        const T& operator[](int index) const;
 };
 
 // định nghĩa các hàm của class vector
@@ -67,5 +67,8 @@ int Vector<T>::getsize()const{
     return this->curr;
 }
 
-
+template<typename T>
+const T& Vector<T>::operator[](int index) const {
+        return arr[index];
+    }
 

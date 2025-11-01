@@ -13,16 +13,15 @@ void option()
     cout<<"Ban muon lua chon option nao\n";
     cout<<"Tra tu(Tr),Tra Ngu Phap(NP),Xem Lich Su(LS),show(Sh)\n"; 
 }
-void readfile(ifstream& in,Vector_User& v)
+void readfile(ifstream& in,Vector<User>& v)
 {
     string s="1",init;
     int i=0;
     User u(i,init,init);
     //int k=0;
-    while(true){             // kiểm tra xem luồng stream trong file in đã hết chưa
+    while(getline(in,s)){             // kiểm tra xem luồng stream trong file in đã hết chưa
         //k++;
-        getline(in,s);
-        if(s=="")break;
+        if(s=="")continue;
         i=0;
         stringstream ss(s);
         while(getline(ss,s,',')){
@@ -37,9 +36,9 @@ void readfile(ifstream& in,Vector_User& v)
     }
     //cout<<"chay trong "<<k<<"lan"<<endl;
 }
-void showinfo(Vector_User& v)
+void showinfo(Vector<User>& v)
 {
-    int k=v.getSize();
+    int k=v.getsize();
     for(int i=0;i<k;i++)
     {
         v[i].showinfo();
@@ -63,7 +62,7 @@ void pauseScreen() {
     }
 }
 
-void sign_up(Vector_User& UserList, ofstream& write, int& id)
+void sign_up(Vector<User>& UserList, ofstream& write, int& id)
 {
     string name, password, confirm_password; 
 
@@ -94,7 +93,7 @@ void log_out()
     cout<<"Ban co muon thoat khoi web ko(e:Exit)\n";
 }
 
-void login(User*& currentUser, Vector_User& UserList, int& id) {
+void login(User*& currentUser, Vector<User>& UserList, int& id) {
     string username, password;
     cout << "--- DANG NHAP ---\n";
     cout << "Nhap ten dang nhap: ";
@@ -104,7 +103,7 @@ void login(User*& currentUser, Vector_User& UserList, int& id) {
 
     User NewUser(id,username, password);
     
-    for (int i = 0; i < UserList.getSize(); i++){
+    for (int i = 0; i < UserList.getsize(); i++){
         if (UserList[i].getUsername() == username && UserList[i].getPassword() == password) {
             currentUser = &UserList[i];
             break;
@@ -129,7 +128,7 @@ void login(User*& currentUser, Vector_User& UserList, int& id) {
     pauseScreen();
 }
 
-void LoginMenu(User*& currentUser, Vector_User& UserList, int& id, ofstream& write) {
+void LoginMenu(User*& currentUser, Vector<User>& UserList, int& id, ofstream& write) {
     int choice = 0;
     while (currentUser == nullptr){
         clearScreen();
@@ -163,7 +162,7 @@ void LoginMenu(User*& currentUser, Vector_User& UserList, int& id, ofstream& wri
     }
 }
 
-void MainMenu(User*& currentUser, HashTable<Word>& Dictionary) {
+void MainMenu(User*& currentUser, HashTable<Word>& Dictionary, Vector<Grammar>& gList) {
     int choice = 0;
     string s;
     while (true) {
@@ -195,20 +194,16 @@ void MainMenu(User*& currentUser, HashTable<Word>& Dictionary) {
 
         switch (choice) {
             case 1:
-                {
-                    string word;
-                    cout << "Hay ghi tu ban muon tra: ";
-                    getline(cin, word);
-                    Search(Dictionary, word, currentUser);
-                    pauseScreen();
-                }
+                SearchWord(Dictionary,currentUser);
+                //pauseScreen();
                 break;
             case 2:
-                // Thêm chức năng tra ngữ pháp ở đây
+                SearchGrammar(gList);
+                //pauseScreen();
                 break;
             case 3:
                 viewHistory(currentUser);
-                pauseScreen();
+                //pauseScreen();
                 break;
             case 4:
                 s = HistoryDir + currentUser->getUsername();
@@ -290,9 +285,8 @@ void readvocal(HashTable<Word>& Dictionary,ifstream& vocabulary)
 {
     int i;
     string s;
-    while(true){
-        getline(vocabulary,s);
-        if(s=="")break;
+    while(getline(vocabulary,s)){
+        if(s=="") continue;
         i=0;
         stringstream ss(s);
         while(getline(ss,s,',')){
@@ -324,4 +318,141 @@ void luu_vocalbulary(HashTable<Word>& Dictionary, ofstream& write){
             write<<Dictionary[i][j].GetPronounce()<<"\n";
         }
     }
+}
+
+// Hàm đọc file ngữ pháp 
+void readGrammar(ifstream& grammar_file, Vector<Grammar>& gList) {
+    string line, rulePart, subPart; 
+    
+    while (getline(grammar_file, line)) { 
+        if (line == "") continue;
+
+        Grammar newRule;
+        stringstream ss(line);
+        int partIndex = 0;
+
+        // Tách dòng chính bằng dấu '|' vì dấu ',' có thể xuất hiện trong phần nghĩa hoặc ví dụ
+        while (getline(ss, rulePart, '|')) {
+            if (partIndex == 0) {
+                newRule.SetName(rulePart);
+
+            } else if (partIndex == 1) { // PHẦN CÔNG THỨC MỚI
+                stringstream ss_formulas(rulePart);
+                while (getline(ss_formulas, subPart, ';')) { // Tách công thức bằng dấu ';'
+                    newRule.AddFormula(subPart);
+                }
+
+            } else if (partIndex == 2) { // GIẢI THÍCH
+                newRule.SetExplanation(rulePart);
+
+            } else if (partIndex == 3) { //  VÍ DỤ
+                stringstream ss_examples(rulePart);
+                while (getline(ss_examples, subPart, ';')) { 
+                    newRule.AddExample(subPart);
+                }
+            }
+            partIndex++;
+        }
+        gList.pb(newRule); 
+    }
+}
+
+void FindGrammar(Vector<Grammar>& gList) {
+    clearScreen();
+    cout << "+----------------------------------------+\n";
+    cout << "|         TIM KIEM QUY TAC NGU PHAP      |\n";
+    cout << "+----------------------------------------+\n\n";
+    cout << "Nhap ten quy tac can tim (go 0 de quay lai): ";
+    string keyword;
+    getline(cin, keyword);
+
+    if (keyword == "0") return;
+
+    for(char &c : keyword) { c = tolower(c); }
+
+    bool found = false;
+    for (int i = 0; i < gList.getsize(); ++i) {
+        string ruleName = gList[i].GetName();
+        for(char &c : ruleName) { c = tolower(c); }
+        if (ruleName.find(keyword) != string::npos) {
+            gList[i].GetInfoRule(); // In thông tin nếu tìm thấy
+            found = true;
+        }
+    }
+    if (!found) {
+        cout << "Khong tim thay quy tac ngu phap phu hop.\n";
+    }
+    pauseScreen();
+}
+
+// func.cpp
+// Hàm hiển thị tất cả các quy tắc ngữ pháp và cho phép người dùng chọn để xem chi tiết
+void AllGrammar(Vector<Grammar>& gList) {
+    clearScreen();
+    cout << "+----------------------------------------+\n";
+    cout << "|       DANH SACH TAT CA QUY TAC         |\n";
+    cout << "+----------------------------------------+\n\n";
+
+    for (int i = 0; i < gList.getsize(); ++i) {
+        cout << "  [" << (i + 1) << "] " << gList[i].GetName() << endl;
+    }
+    
+    cout << "\nChon mot so de xem chi tiet (hoac 0 de thoat): ";
+    int ruleChoice;
+    cin >> ruleChoice;
+    cin.ignore(10000, '\n'); // Xóa bộ đệm sau khi nhập số
+
+    if (ruleChoice > 0 && ruleChoice <= gList.getsize()) {
+        clearScreen();
+        gList[ruleChoice - 1].GetInfoRule();
+    }
+    pauseScreen();
+}
+
+void SearchGrammar(Vector<Grammar>& gList) {
+    while (true) {
+        clearScreen();
+        cout << "+----------------------------------------+\n";
+        cout << "|             TRA CUU NGU PHAP           |\n";
+        cout << "+----------------------------------------+\n\n";
+        cout << "[1] Tim kiem theo ten quy tac\n";
+        cout << "[2] Xem danh sach tat ca quy tac\n";
+        cout << "[0] Quay lai Menu Chinh\n\n";
+        cout << "Vui long chon: ";
+
+        string input;
+        getline(cin, input);
+        int choice = (input.length() > 0) ? (input.c_str()[0] - '0') : 0;
+
+        switch (choice) {
+            case 1:
+                FindGrammar(gList); 
+                break;
+            case 2:
+                AllGrammar(gList); 
+                break;
+            case 0:
+                return;
+            default:
+                cout << "Lua chon khong hop le.\n";
+                pauseScreen();
+        }
+    }
+}
+
+void SearchWord(HashTable<Word>& Dictionary, User*& currentUser)
+{
+    clearScreen();
+    cout << "+----------------------------------------+\n";
+    cout << "|             TRA CUU TU VUNG            |\n";
+    cout << "+----------------------------------------+\n\n";
+    cout << "Hay ghi tu ban muon tra (hoac go '0' de quay lai): ";
+
+    string word;
+    getline(cin, word);
+    if (word == "0") {
+        return; 
+    }
+    Search(Dictionary, word, currentUser);
+    pauseScreen();
 }
