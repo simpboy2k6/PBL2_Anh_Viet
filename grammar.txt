@@ -1,2 +1,11 @@
-Present Simple|S + V(s/es);S + do/does + not + V;Do/Does + S + V?|Dung de dien ta thoi quen|I go to school;He plays football
-Past Simple|S + V2/ed;S + did + not + V;Did + S + V?|Dung de dien ta su viec da ket thuc|I bought a new car yesterday
+Present Continuous|S + am/is/are + V-ing;S + am/is/are + not + V-ing;Am/Is/Are + S + V-ing?|Diễn tả hành động đang xảy ra tại thời điểm nói|I am studying;She is not working;Are they playing?
+Past Continuous|S + was/were + V-ing;S + was/were + not + V-ing;Was/Were + S + V-ing?|Diễn tả hành động đang xảy ra tại 1 thời điểm cụ thể trong quá khứ|I was reading at 8 PM last night;They were not sleeping.
+Future Simple (will)|S + will + V;S + will not (won't) + V;Will + S + V?|Diễn tả quyết định tức thời, dự đoán (không căn cứ)|I will help you;It will rain tomorrow.
+Future Simple (be going to)|S + am/is/are + going to + V;S + am/is/are + not + going to + V;Am/Is/Are + S + going to + V?|Diễn tả kế hoạch, dự định (có căn cứ)|I am going to visit Hanoi next month;Look at the clouds! It is going to rain.
+Present Perfect|S + have/has + V3/ed;S + have/has + not + V3/ed;Have/Has + S + V3/ed?|Diễn tả hành động bắt đầu trong quá khứ, kéo dài đến hiện tại (hoặc có kết quả ở hiện tại)|I have lived here for 5 years;She hasn't finished her homework.
+Past Perfect|S + had + V3/ed;S + had + not (hadn't) + V3/ed;Had + S + V3/ed?|Diễn tả hành động xảy ra trước 1 hành động/thời điểm khác trong quá khứ|He had left before I arrived.
+Future Perfect|S + will + have + V3/ed;S + will + not + have + V3/ed;Will + S + have + V3/ed?|Diễn tả hành động sẽ hoàn tất trước 1 thời điểm trong tương lai|By 2030, I will have graduated.
+Present Perfect Continuous|S + have/has + been + V-ing;S + have/has + not + been + V-ing;Have/Has + S + been + V-ing?|Nhấn mạnh tính liên tục của hành động (bắt đầu ở quá khứ, kéo dài đến hiện tại)|I have been waiting for two hours.
+Past Perfect Continuous|S + had + been + V-ing;S + had + not + been + V-ing;Had + S + been + V-ing?|Nhấn mạnh tính liên tục của hành động xảy ra trước 1 hành động khác trong quá khứ|They had been talking for an hour before she came.
+Future Continuous|S + will + be + V-ing;S + will + not + be + V-ing;Will + S + be + V-ing?|Diễn tả hành động đang diễn ra tại 1 thời điểm cụ thể trong tương lai|This time tomorrow, I will be flying to Japan.
+Future Perfect Continuous|S + will + have + been + V-ing;S + will + not + have + been + V-ing;Will + S + have + been + V-ing?|Nhấn mạnh tính liên tục của hành động tính đến 1 thời điểm trong tương lai|By next year, he will have been working here for 10 years.

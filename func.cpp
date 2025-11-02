@@ -64,13 +64,24 @@ void pauseScreen() {
 
 void sign_up(Vector<User>& UserList, ofstream& write, int& id)
 {
-    string name, password, confirm_password; 
-
-    cout << "Nhap ten dang nhap: ";
+    string name="", password="", confirm_password; 
+    cout << "Nhập tên đăng nhập: ";
     getline(cin, name);
-    cout << "Nhap mat khau: ";
+    for(int i=0;i<UserList.getsize();i++){
+        if(UserList[i].getUsername()==name){
+            cout<<"Tên này đã có người sử dụng. Vui lòng thử lại!\n";
+            pauseScreen();
+            return;
+        }
+    }
+    cout << "Nhập lại mật khẩu: ";
     getline(cin, password);
-    cout << "Nhap lai mat khau: ";
+    if(name=="" || password==""){
+        cout<<"Chưa nhập mật khẩu hoặc tên đăng nhập! \n";
+        pauseScreen();
+        return;
+    }
+    cout << "Nhập lại mật khẩu: ";
     getline(cin, confirm_password);
     if (password == confirm_password) {
         ++id;
@@ -81,9 +92,9 @@ void sign_up(Vector<User>& UserList, ofstream& write, int& id)
         User u(id, name, password); // Tạo user mới
         UserList.pb(u);
 
-        cout << "Dang ky thanh cong!" << endl;
+        cout << "Đăng ký thành công!" << endl;
     } else {
-        cout << "Mat khau khong khop. Vui long thu lai." << endl;
+        cout << "Mật khẩu không khớp. Vui lòng thử lại" << endl;
     }
     pauseScreen(); // Thêm tạm dừng để người dùng đọc thông báo
 }
@@ -198,7 +209,7 @@ void MainMenu(User*& currentUser, HashTable<Word>& Dictionary, Vector<Grammar>& 
                 //pauseScreen();
                 break;
             case 2:
-                SearchGrammar(gList);
+                SearchGrammar(gList,currentUser);
                 //pauseScreen();
                 break;
             case 3:
@@ -208,11 +219,10 @@ void MainMenu(User*& currentUser, HashTable<Word>& Dictionary, Vector<Grammar>& 
             case 4:
                 s = HistoryDir + currentUser->getUsername();
                 CurrentUserHistoryDirWrite.open(s);             // mở file history của User để ghi
-                //cout<<"check name:"<<s<<endl;
-                
+
                 for(int i=0;i<currentUser->getHistory().getsize();i++){
                     CurrentUserHistoryDirWrite << currentUser->getHistory()[i]<<"\n"; // ghi vào file history của user
-                    //cout<< currentUser->getHistory()[i]<<"\n";
+                    
                 }
                 CurrentUserHistoryDirWrite.close();
 
@@ -278,6 +288,7 @@ void Search(HashTable<Word>& Dictionary, string& word, User*& currentUser)
     }
     if(countword==0){
         cout<<"Không có từ bạn tìm kiếm ở trong từ điển này\n";
+
     }
 }
 
@@ -307,7 +318,6 @@ void readvocal(HashTable<Word>& Dictionary,ifstream& vocabulary)
     }
 
 }
-
 void luu_vocalbulary(HashTable<Word>& Dictionary, ofstream& write){
     for(int i=0; i <Dictionary.getcapacity();i++){
         for(int j=0;j<Dictionary[i].getsize();j++){
@@ -319,7 +329,6 @@ void luu_vocalbulary(HashTable<Word>& Dictionary, ofstream& write){
         }
     }
 }
-
 // Hàm đọc file ngữ pháp 
 void readGrammar(ifstream& grammar_file, Vector<Grammar>& gList) {
     string line, rulePart, subPart; 
@@ -357,7 +366,7 @@ void readGrammar(ifstream& grammar_file, Vector<Grammar>& gList) {
     }
 }
 
-void FindGrammar(Vector<Grammar>& gList) {
+void FindGrammar(Vector<Grammar>& gList,User*& currentUser) {
     clearScreen();
     cout << "+----------------------------------------+\n";
     cout << "|         TIM KIEM QUY TAC NGU PHAP      |\n";
@@ -376,6 +385,7 @@ void FindGrammar(Vector<Grammar>& gList) {
         for(char &c : ruleName) { c = tolower(c); }
         if (ruleName.find(keyword) != string::npos) {
             gList[i].GetInfoRule(); // In thông tin nếu tìm thấy
+            currentUser->addHistory(gList[i].GetName());
             found = true;
         }
     }
@@ -385,9 +395,8 @@ void FindGrammar(Vector<Grammar>& gList) {
     pauseScreen();
 }
 
-// func.cpp
 // Hàm hiển thị tất cả các quy tắc ngữ pháp và cho phép người dùng chọn để xem chi tiết
-void AllGrammar(Vector<Grammar>& gList) {
+void AllGrammar(Vector<Grammar>& gList,User*& currentUser) {
     clearScreen();
     cout << "+----------------------------------------+\n";
     cout << "|       DANH SACH TAT CA QUY TAC         |\n";
@@ -405,11 +414,12 @@ void AllGrammar(Vector<Grammar>& gList) {
     if (ruleChoice > 0 && ruleChoice <= gList.getsize()) {
         clearScreen();
         gList[ruleChoice - 1].GetInfoRule();
+        currentUser->addHistory(gList[ruleChoice-1].GetName());
     }
     pauseScreen();
 }
 
-void SearchGrammar(Vector<Grammar>& gList) {
+void SearchGrammar(Vector<Grammar>& gList,User*& currentUser) {
     while (true) {
         clearScreen();
         cout << "+----------------------------------------+\n";
@@ -426,10 +436,10 @@ void SearchGrammar(Vector<Grammar>& gList) {
 
         switch (choice) {
             case 1:
-                FindGrammar(gList); 
+                FindGrammar(gList,currentUser); 
                 break;
             case 2:
-                AllGrammar(gList); 
+                AllGrammar(gList,currentUser); 
                 break;
             case 0:
                 return;

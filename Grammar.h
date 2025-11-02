@@ -1,12 +1,11 @@
 #pragma once
 #include <string>
-#include <iostream> // Thêm thư viện này để GetInfoRule có thể dùng cout
-#include "Vector.h" // Giả sử file này định nghĩa Vector_String
+#include "Vector.h"
 
 class Grammar {
 private:
     std::string ruleName;
-    Vector<std::string> formulas;    // <--- THÊM DÒNG NÀY
+    Vector<std::string> formulas; 
     std::string explanation;
     Vector<std::string> examples;
 
@@ -14,12 +13,12 @@ public:
     Grammar();
     
     // Hàm Set
-    void SetName(const std::string& name);
-    void AddFormula(const std::string& formula); // <--- THÊM HÀM NÀY
-    void SetExplanation(const std::string& expl);
-    void AddExample(const std::string& ex);
+    void SetName(const std::string&);
+    void AddFormula(const std::string&);
+    void SetExplanation(const std::string&);
+    void AddExample(const std::string&);
 
     // Hàm Get
     std::string GetName() const;
-    void GetInfoRule() const; // Hàm này sẽ được cập nhật
+    void GetInfoRule() const; 
 };

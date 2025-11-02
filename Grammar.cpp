@@ -1,60 +1,61 @@
+#include<iostream>
 #include "Grammar.h"
+
+using namespace std;
 
 // --- Hàm tạo (Constructor) ---
 Grammar::Grammar() {
-    // Để trống. Các thành viên (Vector_String, std::string)
-    // sẽ tự động gọi hàm tạo mặc định của chúng.
 }
 
 // --- Các hàm Set (Dùng khi đọc file) ---
 
-void Grammar::SetName(const std::string& name) {
+void Grammar::SetName(const string& name) {
     this->ruleName = name;
 }
 
-void Grammar::AddFormula(const std::string& formula) {
-    this->formulas.pb(formula); // pb là push_back
+void Grammar::AddFormula(const string& formula) {
+    this->formulas.pb(formula); 
 }
 
-void Grammar::SetExplanation(const std::string& expl) {
+void Grammar::SetExplanation(const string& expl) {
     this->explanation = expl;
 }
 
-void Grammar::AddExample(const std::string& ex) {
-    this->examples.pb(ex); // pb là push_back
+void Grammar::AddExample(const string& ex) {
+    this->examples.pb(ex); 
 }
 
 // --- Các hàm Get (Dùng khi hiển thị) ---
 
-std::string Grammar::GetName() const {
+string Grammar::GetName() const {
     return this->ruleName;
 }
 
 // Hàm in thông tin chi tiết của quy tắc ra màn hình
 void Grammar::GetInfoRule() const {
-    std::cout << "\n+----------------------------------------+" << std::endl;
+    cout << "\n+----------------------------------------+" << endl;
     // (Tính toán padding để căn giữa tên quy tắc nếu muốn)
-    std::cout << "| QUY TAC: " << this->ruleName << std::endl;
-    std::cout << "+----------------------------------------+" << std::endl;
+    cout << "| QUY TAC: " << this->ruleName << endl;
+    cout << "+----------------------------------------+" << endl;
 
     // --- In CÔNG THỨC ---
-    if (this->formulas.getsize() > 0) { // getsize() là hàm lấy kích thước của Vector
-        std::cout << "\n[CONG THUC]\n";
+    if (this->formulas.getsize() > 0) { 
+        cout << "\n[CONG THUC]\n";
         for (int i = 0; i < this->formulas.getsize(); ++i) {
-            std::cout << "  - " << this->formulas[i] << std::endl;
+            cout << "  - " << this->formulas[i] << endl;
         }
     }
 
     // --- In GIẢI THÍCH ---
-    std::cout << "\n[GIAI THICH]\n";
-    std::cout << "  " << this->explanation << std::endl;
+    cout << "\n[GIAI THICH]\n";
+    cout << "  " << this->explanation << endl;
 
     // --- In VÍ DỤ ---
-    if (this->examples.getsize() > 0) { // getsize() là hàm lấy kích thước của Vector
-        std::cout << "\n[VI DU]\n";
+    if (this->examples.getsize() > 0) { 
+        cout << "\n[VI DU]\n";
         for (int i = 0; i < this->examples.getsize(); ++i) {
-            std::cout << "  - " << this->examples[i] << std::endl;
+            cout << "  - " << this->examples[i] << endl;
         }
     }
-    std::cout << "+----------------------------------------+" << std::endl;
+    cout << "+----------------------------------------+" << endl;
 }
