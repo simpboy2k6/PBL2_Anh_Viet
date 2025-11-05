@@ -11,11 +11,10 @@ int main(){
     ofstream write,luu_dictionary;
     ifstream read,voca,grammar;
     
-    read.open("qlyUser.txt");
-    write.open("qlyUser.txt",ios::app);             //khai báo các biến dùng cho chương trình
-    voca.open("vocabulary.txt");
-    grammar.open("grammar.txt");
-    luu_dictionary.open("dic.txt");
+    read.open("data/qlyUser.txt");
+    write.open("data/qlyUser.txt",ios::app);             //khai báo các biến dùng cho chương trình
+    voca.open("data/vocabulary.txt");
+    grammar.open("data/grammar.txt");
     string s,exit,name,password,choice,word;
     Vector<User> UserList;
     HashTable<Word> Dictionary;
@@ -37,11 +36,11 @@ int main(){
         }
         MainMenu(currentUser, Dictionary, gList);
     }
-
-    luu_vocalbulary(Dictionary,luu_dictionary);
+    luu_dictionary.open("data/dic.txt");
+    luu_vocalbulary(Dictionary,luu_dictionary);  // lưu từ điển vào dic.txt
+    luu_dictionary.close();
     read.close();
     write.close();
     voca.close();
     grammar.close();
-    luu_dictionary.close();
 }

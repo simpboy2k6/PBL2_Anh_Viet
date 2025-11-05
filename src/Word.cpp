@@ -41,6 +41,7 @@ void Word::SetName(const string a){
     countname = 0;
     for(int i=0;i<a.size();i++){
         countname +=((int) a[i])*(i+1);
+        if(a[i]==' ')continue;
     }
     this->idWord = countname;
 }

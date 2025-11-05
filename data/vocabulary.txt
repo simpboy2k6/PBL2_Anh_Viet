@@ -30,7 +30,7 @@
 30,actress,noun,diễn viên nữ,She is a very talented actress,/ˈæktrəs/
 31,actual,adjective,thực tế,The actual cost was higher than we expected,/ˈæktʃuəl/
 32,actually,adverb,thực ra,I thought he was shy, but actually he's very outgoing,/ˈæktʃuəli/
-33,ad (advertisement),noun,quảng cáo,I saw an ad for a new phone,/æd/
+33,ad,noun,quảng cáo,I saw an ad for a new phone,/æd/
 34,adapt,verb,thích nghi,Humans can adapt to new environments,/əˈdæpt/
 35,add,verb,thêm vào,Please add more sugar to my coffee,/æd/
 36,addition,noun,sự thêm vào,In addition to English, she also speaks French,/əˈdɪʃn/
@@ -1149,9 +1149,9 @@ Side,artful,adjective,xảo quyệt/khéo léo,He gave an artful reply to the tr
 1149,azimuth,noun,góc phương vị (thiên văn, hàng hải),The navigator calculated the sun's azimuth,/ˈæzɪməθ/
 1150,A-frame,noun,khung chữ A,The house had a steep A-frame roof,/ˈeɪ freɪm/
 1151,A-list,noun,danh sách hạng A (người nổi tiếng),He is an A-list celebrity,/ˈeɪ lɪst/
-1152,A.D. (Anno Domini),noun,Sau Công Nguyên,The Roman Empire fell in 476 A.D.,/ˌeɪ ˈdiː/
-1153,A.I. (Artificial Intelligence),noun,Trí tuệ nhân tạo,A.I. is developing rapidly,/ˌeɪ ˈaɪ/
-1154,AWOL (Absent Without Leave),adjective,vắng mặt (không phép),The soldier went AWOL from his base,/ˈeɪwɒl/
+1152,AD,noun,Sau Công Nguyên,The Roman Empire fell in 476 AD(Anno Domini),/ˌeɪ ˈdiː/
+1153,AI,noun,Trí tuệ nhân tạo(Artificial Intelligence),A.I. is developing rapidly,/ˌeɪ ˈaɪ/
+1154,AWOL,adjective,vắng mặt (không phép),The soldier went AWOL from his base,/ˈeɪwɒl/
 1155,aztec,noun,người Aztec,The Aztec civilization was in Mexico,/ˈæztek/
 1156,azure,noun,màu xanh da trời,The sky was a perfect azure,/ˈæʒər/
 1157,back,noun,cái lưng/phía sau,He hurt his back playing tennis,/bæk/

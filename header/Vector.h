@@ -31,6 +31,7 @@ template<typename T>
 void Vector<T>::pb(const T x){
     *(this->arr+this->curr) = x;
     this->curr ++;
+
     if(this->curr == this->capacity){
         T *tmp = new T[this->capacity];
         for(int i=0;i<this->capacity;i++){
@@ -38,6 +39,7 @@ void Vector<T>::pb(const T x){
         }
         delete[] this->arr;
         this->arr = new T[this->capacity *2];
+        this->capacity *=2;
         for(int i=0;i<this->curr;i++){
             *(this->arr+i) = *(tmp +i);
         }
@@ -70,5 +72,5 @@ int Vector<T>::getsize()const{
 template<typename T>
 const T& Vector<T>::operator[](int index) const {
         return arr[index];
-    }
+}
 

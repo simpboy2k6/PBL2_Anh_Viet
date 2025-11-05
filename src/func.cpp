@@ -278,6 +278,8 @@ void Search(HashTable<Word>& Dictionary, string& word, User*& currentUser)
             cout<<Dictionary[i][j].GetName()<<endl;
         }
     }*/
+    //cout<<"Day la tu can tìm:"<<word<<"\n";
+    //cout<<"value:"<<value<<","<<"key:"<<key<<endl;
     for(int i=0;i<Dictionary[key].getsize();i++){
         if(Dictionary[key][i].GetId() == value && word == Dictionary[key][i].GetName()){  
                    
@@ -321,6 +323,7 @@ void readvocal(HashTable<Word>& Dictionary,ifstream& vocabulary)
 void luu_vocalbulary(HashTable<Word>& Dictionary, ofstream& write){
     for(int i=0; i <Dictionary.getcapacity();i++){
         for(int j=0;j<Dictionary[i].getsize();j++){
+            write<<i<<",";
             write<<Dictionary[i][j].GetName()<<",";
             write<<Dictionary[i][j].GetType()<<",";
             write<<Dictionary[i][j].GetMean()<<",";

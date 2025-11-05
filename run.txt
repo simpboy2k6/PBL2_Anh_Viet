@@ -1,1 +1,1 @@
-g++ User.cpp main.cpp func.cpp Word.cpp Grammar.cpp -o run
+g++ -Iheader src/User.cpp src/main.cpp src/func.cpp src/Word.cpp src/Grammar.cpp -o run
