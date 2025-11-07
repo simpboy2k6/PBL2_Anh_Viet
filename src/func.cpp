@@ -7,7 +7,10 @@ Word W;
 string HistoryDir = "User_history/";
 ifstream CurrentUserHistoryDirRead;
 ofstream CurrentUserHistoryDirWrite;
-
+ifstream RequestRead;
+ofstream RequestWrite;
+string RequestDir = "data/request.txt";
+Vector<string> Request;
 void option()
 {
     cout<<"Ban muon lua chon option nao\n";
@@ -35,6 +38,20 @@ void readfile(ifstream& in,Vector<User>& v)
         v.pb(u);
     }
     //cout<<"chay trong "<<k<<"lan"<<endl;
+}
+void ReadRequest(){
+    string s;
+    RequestRead.open(RequestDir);
+    while(getline(RequestRead,s)){
+        Request.pb(s);
+    }
+    RequestRead.close();
+}
+void ShowRequest(){
+    for(int i=0;i<Request.getsize();i++){
+        cout<<"["<<i+1<<"]"<<Request[i]<<"\n";
+    }
+
 }
 void showinfo(Vector<User>& v)
 {
@@ -140,6 +157,7 @@ void login(User*& currentUser, Vector<User>& UserList, int& id) {
 }
 
 void LoginMenu(User*& currentUser, Vector<User>& UserList, int& id, ofstream& write) {
+    ReadRequest();
     int choice = 0;
     while (currentUser == nullptr){
         clearScreen();
@@ -195,7 +213,8 @@ void MainMenu(User*& currentUser, HashTable<Word>& Dictionary, Vector<Grammar>& 
         cout << "[1] Tra tu\n";
         cout << "[2] Tra Ngu Phap\n";
         cout << "[3] Xem Lich Su\n";
-        cout << "[4] Dang xuat\n\n";
+        cout << "[4] Dang xuat\n";
+        cout << "[5] Admin mode\n\n";
         cout << "Vui long chon: ";
 
         string input;
@@ -226,16 +245,240 @@ void MainMenu(User*& currentUser, HashTable<Word>& Dictionary, Vector<Grammar>& 
                 }
                 CurrentUserHistoryDirWrite.close();
 
-                currentUser->getHistory().Erase_Vector();  // xóa đi dữ liệu của Vector String trong currentUser 
+                currentUser->getHistory().Erase_Vector();  // xóa đi dữ liệu của Vector String trong currentUser
+
+                RequestWrite.open(RequestDir);
+                for(int i=0;i<Request.getsize();i++){
+                    RequestWrite << Request[i] <<"\n";          // lưu yêu cầu người dùng khi thoát ứng dụng
+                }
+                RequestWrite.close(); 
+                Request.Erase_Vector();
+                
                 currentUser = nullptr;
                 cout << "Dang xuat thanh cong!" << endl;
                 pauseScreen();
                 return;
+            case 5: 
+                AdminMode(currentUser,Dictionary,gList);
+                break;
             default:
                 cout << "Lua chon khong hop le. Vui long thu lai." << endl;
                 pauseScreen();
         }
     }
+}
+void AdminMode(User*& currentUser, HashTable<Word>& Dictionary, Vector<Grammar>& gList){
+    cout<<"Hãy nhập mật khẩu của Admin Mode:";
+    string s;
+    getline(cin,s);
+    if(s!="Admin is here"){
+        cout<<"Mật khẩu không đúng\n";
+        pauseScreen();
+        return;
+    }else{
+        
+        while (true) {
+            clearScreen();
+            cout << "+----------------------------------------+\n";
+            cout << "|                                        |\n";
+            cout << "|             CHE DO ADMIN               |\n";
+            cout << "|                                        |\n";
+            
+            cout << "|";
+            string welcome_text = "Welcome, Admin"; // 14 ky tu
+            int internal_width = 38;
+            int padding = internal_width - welcome_text.length() - 2; // -2 cho "  |"
+            
+            for (int i = 0; i < padding; i++) {
+                cout << " ";
+            }
+            cout << welcome_text << "    |\n";
+            cout << "+----------------------------------------+\n\n";
+
+            // Các lựa chọn của Admin
+            cout << "[1] Xem yeu cau them tu\n";
+            cout << "[2] Chinh sua tu dien\n";
+            cout << "[3] Them tu\n";
+            cout << "[4] Thoat che do Admin\n\n";
+            cout << "Vui long chon: ";
+
+            string input;
+            int choice = 0;
+            getline(cin, input);
+
+            // Cách đọc input an toàn hơn, tránh lỗi
+            stringstream ss(input);
+            ss >> choice; // Thử đọc một số từ input
+
+            switch (choice) {
+                case 1:
+                    clearScreen();
+                    CheckRequest();
+                    pauseScreen();
+                    break;
+                case 2:
+                    clearScreen();
+                    ModifiedDictionary(Dictionary);
+                    pauseScreen();
+                    break;
+                case 3:
+                    clearScreen();
+                    AddNewWord(Dictionary);
+                    pauseScreen();
+                    break;
+                case 4:
+                    pauseScreen();
+                    return; 
+                default:
+                    cout << "\nLua chon khong hop le. Vui long thu lai." << endl;
+                    pauseScreen();
+            }
+        }
+    }
+}
+void ModifiedDictionary(HashTable<Word>& Dictionary){
+    while(true){
+        string word;
+        Vector<int> v_index;
+        cout << "=== CHINH SUA TU DIEN ===\n";
+        cout<<"Nhập từ bạn muốn chỉnh sửa tại đây(0: Thoát):";
+        getline(cin,word);
+        if(word == "0")break;
+        countword = 0;value =0;
+        for(int i=0;i<word.size();i++){
+            word[i]= tolower(word[i]);
+            value += (i+1)* ((int)word[i]);        
+        }                                           
+        key = Dictionary.getkey(value);            
+        for(int i=0;i<Dictionary[key].getsize();i++){
+            if(Dictionary[key][i].GetId() == value && word == Dictionary[key][i].GetName()){  
+                countword++;                                // check xem đã có từ đó trong Dictionaty chưa
+                v_index.pb(i);
+            }
+        }
+        if(countword == 0){
+            cout<<"Không có từ này trong từ điển";
+            pauseScreen();
+        }else{
+            int index;
+            cout<<"Đây là các từ tương ứng trong từ điển:\n";
+            for(int i=0;i<v_index.getsize();i++){
+                cout<<"["<<i+1<<"]";
+                Dictionary[key][v_index[i]].GetInfoWord();
+            }
+            cout<<"Bạn muốn chỉnh sửa từ nào(0: không chọn):";
+            cin>>index;
+            if(index!=0){
+                index = v_index[index-1];
+                clearScreen();
+                ModifiedWord(Dictionary,key,index);
+                continue;
+            }
+
+        }
+        clearScreen();
+    }
+
+}
+void ModifiedWord(HashTable<Word>& Dictionary,int key, int& index){
+    string choice;string update;
+    while(true){
+        Dictionary[key][index].GetInfoWord();
+        cout<<"[1]:Thay đổi nghĩa\n";
+        cout<<"[2]:Thay đổi từ loại\n";
+        cout<<"[3]:Thay đổi ví dụ\n";
+        cout<<"[4]:Thay đổi cách phát âm\n";
+        cout<<"[5]:Xóa từ này\n";
+        cout<<"Bạn muốn lựa chọn cái nào (0: Thoát):";
+        getline(cin,choice);
+        
+        if(choice == "5"){
+            Dictionary[key].Erase(index);
+            cout<<"Đã xóa thành công\n";
+            pauseScreen();
+            clearScreen();
+            break;
+        }else if(choice == "4"){
+            cout<<"Nhập cách phát âm mới:";
+            getline(cin,update);
+            Dictionary[key][index].SetPronounce(update);
+        }else if(choice == "2"){
+            cout<<"Nhập ví dụ mới:";
+            getline(cin,update);
+            Dictionary[key][index].SetExample(update);
+        }else if(choice == "3"){
+            cout<<"Nhập từ loại mới:";
+            getline(cin,update);
+            Dictionary[key][index].SetType(update);
+        }else if(choice == "1"){
+            cout<<"Nhập nghĩa mới:";
+            getline(cin,update);
+            Dictionary[key][index].SetMean(update);
+        }else if(choice == "0" ){
+            clearScreen();
+            break;
+        }else{
+            cout<<"Lựa chọn không hợp lệ\n";
+        }
+        clearScreen();
+    }
+}
+
+void CheckRequest(){
+    int index;
+    while(true){
+        cout << "=== XEM YEU CAU THEM TU ===\n";
+        ShowRequest();
+        cout<<"Bạn có muốn xóa yêu cầu nào không(0: Thoát):";
+        cin>>index;
+        if(index==0)break;
+        index--;
+        Request.Erase(index);
+        cout<<"Đã xóa thành công";
+        pauseScreen();
+        clearScreen();
+    }
+}
+// Chức năng thêm từ của Admin Mode
+void AddNewWord(HashTable<Word>& Dictionary){
+    string word,type,example,pronounce,mean;
+    while(true){
+        cout << "=== THEM TU MOI ===\n";
+        cout<<"Nhập từ muốn thêm vào(0: Thoát):";
+        getline(cin,word);
+        if(word == "0")break;
+        countword = 0;value =0;
+        for(int i=0;i<word.size();i++){
+            word[i]= tolower(word[i]);
+            value += (i+1)* ((int)word[i]);        
+        }                                           
+        key = Dictionary.getkey(value);            
+        for(int i=0;i<Dictionary[key].getsize();i++){
+            if(Dictionary[key][i].GetId() == value && word == Dictionary[key][i].GetName()){  
+                countword++;                                // check xem đã có từ đó trong Dictionaty chưa
+            }
+        }
+        if(countword !=0){
+            cout<<"Đã có từ này trong từ điển!\n";
+            pauseScreen();
+        }else{
+            cout <<"Nhập nghĩa của từ:";
+            getline(cin,mean);
+            cout <<"Nhập loại của từ(chỉ một loại):";
+            getline(cin,type);
+            cout <<"Nhập một câu ví dụ:";
+            getline(cin,example);
+            cout <<"Nhập cách phát âm của từ đó:";
+            getline(cin,pronounce);
+            Word w(value,word,type,mean,example,pronounce);
+
+            Dictionary[key].pb(w);
+            cout<<"Đã thêm từ thành công\n";
+            pauseScreen();
+            
+        }
+        clearScreen();
+    }   
 }
 // Hàm xem lịch sử tra cứu
 void viewHistory(User*& currentUser) {
@@ -290,7 +533,11 @@ void Search(HashTable<Word>& Dictionary, string& word, User*& currentUser)
     }
     if(countword==0){
         cout<<"Không có từ bạn tìm kiếm ở trong từ điển này\n";
-
+        cout<<"Bạn có muốn yêu cầu thêm từ này vào không(Y:Yes;N:No)";
+        string s;cin>>s;
+        if(s=="Y"){
+            Request.pb(word);
+        }
     }
 }
 

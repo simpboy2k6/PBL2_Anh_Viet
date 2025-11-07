@@ -13,7 +13,7 @@ int main(){
     
     read.open("data/qlyUser.txt");
     write.open("data/qlyUser.txt",ios::app);             //khai báo các biến dùng cho chương trình
-    voca.open("data/vocabulary.txt");
+    voca.open("data/dic.txt");
     grammar.open("data/grammar.txt");
     string s,exit,name,password,choice,word;
     Vector<User> UserList;
@@ -25,12 +25,15 @@ int main(){
     readvocal(Dictionary,voca);  // đọc các từ vựng lưu vào từ điển
     readGrammar(grammar,gList); // đọc các quy tắc ngữ pháp vào gList
     id = UserList.getsize();
-    
+
+    voca.close();
+    grammar.close();
+
     while(true) {
         if (currentUser == nullptr) {
             LoginMenu(currentUser, UserList,id,write);
         }
-
+        
         if (currentUser == nullptr) {
             break; 
         }
@@ -39,8 +42,7 @@ int main(){
     luu_dictionary.open("data/dic.txt");
     luu_vocalbulary(Dictionary,luu_dictionary);  // lưu từ điển vào dic.txt
     luu_dictionary.close();
+    
     read.close();
     write.close();
-    voca.close();
-    grammar.close();
 }

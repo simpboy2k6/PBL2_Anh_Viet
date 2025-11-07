@@ -12,8 +12,6 @@ class User{
         User(int&, std::string& ,std::string&);
         User();
         ~User();
-        void Change_UserName(int&,std::string&);
-        void Change_Password(int&,std::string&);
         void showinfo();
         std::string getUsername();
         int GetId() const ;

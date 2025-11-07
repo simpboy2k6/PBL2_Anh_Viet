@@ -15,6 +15,8 @@ class Vector{
         void Erase_Vector();
         int getsize()const;
         const T& operator[](int index) const;
+        void Erase(const int);
+        
 };
 
 // định nghĩa các hàm của class vector
@@ -38,7 +40,7 @@ void Vector<T>::pb(const T x){
             *(tmp+i) = *(this->arr +i);
         }
         delete[] this->arr;
-        this->arr = new T[this->capacity *2];
+        this->arr = new T[this->capacity*2];
         this->capacity *=2;
         for(int i=0;i<this->curr;i++){
             *(this->arr+i) = *(tmp +i);
@@ -74,3 +76,24 @@ const T& Vector<T>::operator[](int index) const {
         return arr[index];
 }
 
+template<typename T>
+void Vector<T>::Erase(const int x){
+    if(x<0 || x >=curr){
+        std::cout<<"Segmentation fault\n";
+        return;
+    }
+    for(int i = x;i<this->curr;i++){
+        *(this->arr +i)= *(this->arr+i+1);
+    }
+    curr--;
+}
+
+/*int main(){
+    Vector<int> v;
+    v.pb(1);
+    v.pb(2);
+    v.pb(3);
+    std::cout<<v[1]<<"\n";
+    v.Erase(1);
+    std::cout<<v[1]<<"\n";
+}*/

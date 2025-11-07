@@ -1,1 +1,3 @@
 g++ -Iheader src/User.cpp src/main.cpp src/func.cpp src/Word.cpp src/Grammar.cpp -o run
+
+password AdminMode: Admin is here
