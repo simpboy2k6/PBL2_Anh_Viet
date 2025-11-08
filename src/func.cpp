@@ -5,12 +5,17 @@ int countword,value;
 int key;
 Word W;
 string HistoryDir = "User_history/";
+string UpdateHistoryDir = "data/update.txt";
 ifstream CurrentUserHistoryDirRead;
 ofstream CurrentUserHistoryDirWrite;
-ifstream RequestRead;
-ofstream RequestWrite;
+ifstream RequestRead,UpDateHistoryRead;
+ofstream RequestWrite,UpDateHistoryWrite;
 string RequestDir = "data/request.txt";
 Vector<string> Request;
+auto now = chrono::system_clock::now();
+time_t CurrentTime;
+Vector<string> UpdateHistory;
+
 void option()
 {
     cout<<"Ban muon lua chon option nao\n";
@@ -52,6 +57,14 @@ void ShowRequest(){
         cout<<"["<<i+1<<"]"<<Request[i]<<"\n";
     }
 
+}
+void ReadUpdateHistory(){
+    UpDateHistoryRead.open(UpdateHistoryDir);
+    string s;
+    while(getline(UpDateHistoryRead,s)){
+        UpdateHistory.pb(s);
+    }
+    
 }
 void showinfo(Vector<User>& v)
 {
@@ -158,6 +171,7 @@ void login(User*& currentUser, Vector<User>& UserList, int& id) {
 
 void LoginMenu(User*& currentUser, Vector<User>& UserList, int& id, ofstream& write) {
     ReadRequest();
+    ReadUpdateHistory();
     int choice = 0;
     while (currentUser == nullptr){
         clearScreen();
@@ -254,6 +268,13 @@ void MainMenu(User*& currentUser, HashTable<Word>& Dictionary, Vector<Grammar>& 
                 RequestWrite.close(); 
                 Request.Erase_Vector();
                 
+                UpDateHistoryWrite.open(UpdateHistoryDir);
+                for(int i=0;i<UpdateHistory.getsize();i++){
+                    UpDateHistoryWrite << UpdateHistory[i] << "\n"; // lưu lịch sử cập nhật từ điển của Admin khi thoát ứng dụng
+                }
+                UpDateHistoryWrite.close();
+                UpdateHistory.Erase_Vector();
+
                 currentUser = nullptr;
                 cout << "Dang xuat thanh cong!" << endl;
                 pauseScreen();
@@ -299,7 +320,8 @@ void AdminMode(User*& currentUser, HashTable<Word>& Dictionary, Vector<Grammar>&
             cout << "[1] Xem yeu cau them tu\n";
             cout << "[2] Chinh sua tu dien\n";
             cout << "[3] Them tu\n";
-            cout << "[4] Thoat che do Admin\n\n";
+            cout << "[4] Xem lich su cap nhat\n";
+            cout << "[5] Thoat che do Admin\n\n";
             cout << "Vui long chon: ";
 
             string input;
@@ -327,6 +349,11 @@ void AdminMode(User*& currentUser, HashTable<Word>& Dictionary, Vector<Grammar>&
                     pauseScreen();
                     break;
                 case 4:
+                    clearScreen();
+                    ShowUpdateHistory();
+                    pauseScreen();
+                    break;
+                case 5:
                     pauseScreen();
                     return; 
                 default:
@@ -334,6 +361,12 @@ void AdminMode(User*& currentUser, HashTable<Word>& Dictionary, Vector<Grammar>&
                     pauseScreen();
             }
         }
+    }
+}
+void ShowUpdateHistory(){
+    cout << "===  XEM LICH SU CAP NHAT TU DIEN ===\n";
+    for(int i=0;i<UpdateHistory.getsize();i++){
+        cout<<UpdateHistory[i]<<"\n";
     }
 }
 void ModifiedDictionary(HashTable<Word>& Dictionary){
@@ -393,6 +426,9 @@ void ModifiedWord(HashTable<Word>& Dictionary,int key, int& index){
         getline(cin,choice);
         
         if(choice == "5"){
+            now = chrono::system_clock::now();
+            CurrentTime = chrono::system_clock::to_time_t(now);
+            UpdateHistory.pb("Delete word: "+ Dictionary[key][index].GetName()+" | Time :"+ ctime(&CurrentTime));
             Dictionary[key].Erase(index);
             cout<<"Đã xóa thành công\n";
             pauseScreen();
@@ -474,6 +510,9 @@ void AddNewWord(HashTable<Word>& Dictionary){
 
             Dictionary[key].pb(w);
             cout<<"Đã thêm từ thành công\n";
+            now = chrono::system_clock::now();
+            CurrentTime = chrono::system_clock::to_time_t(now);
+            UpdateHistory.pb("Add word: "+ word+" | Time :"+ ctime(&CurrentTime));
             pauseScreen();
             
         }
@@ -523,14 +562,20 @@ void Search(HashTable<Word>& Dictionary, string& word, User*& currentUser)
     }*/
     //cout<<"Day la tu can tìm:"<<word<<"\n";
     //cout<<"value:"<<value<<","<<"key:"<<key<<endl;
+    now = chrono::system_clock::now();
+    CurrentTime = chrono::system_clock::to_time_t(now);
     for(int i=0;i<Dictionary[key].getsize();i++){
         if(Dictionary[key][i].GetId() == value && word == Dictionary[key][i].GetName()){  
                    
             Dictionary[key][i].GetInfoWord();
-            if(countword==0)currentUser->addHistory(word); // Lưu từ tìm kiếm vào lịch sử của User hiện tại
+            if(countword==0){
+                currentUser->addHistory(word + " | Time : "+ ctime(&CurrentTime)); // Lưu từ tìm kiếm vào lịch sử của User hiện tại
+
+            }
             countword++;         
         }
     }
+    
     if(countword==0){
         cout<<"Không có từ bạn tìm kiếm ở trong từ điển này\n";
         cout<<"Bạn có muốn yêu cầu thêm từ này vào không(Y:Yes;N:No)";

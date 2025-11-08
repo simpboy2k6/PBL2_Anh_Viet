@@ -18,6 +18,7 @@
 0,contain,verb,chứa/bao gồm,This box contains old photographs,/kənˈteɪn/
 0,contrast,noun,sự tương phản/đối lập,There is a big contrast between their lifestyles,/ˈkɒntrɑːst/
 0,guy,noun,anh chàng/gã (thông tục),He's a nice guy,/ɡaɪ/
+0,,,ád,,/ɡaɪ/
 1,accompany,verb,đi cùng/hộ tống,Children must be accompanied by an adult,/əˈkʌmpəni/
 1,along,preposition,dọc theo,We walked along the beach,/əˈlɒŋ/
 1,animal,noun,động vật,The lion is a wild animal,/ˈænɪməl/
@@ -1248,6 +1249,7 @@
 49,gate,noun,cổng,Please close the gate,/ɡeɪt/
 49,gold,noun,vàng,The ring is made of pure gold,/ɡəʊld/
 49,height,noun,chiều cao,What is your height?,/haɪt/
+49,just,ádas,cádmkaskd,,ád
 50,agriculture,noun,nông nghiệp,Agriculture is the backbone of the economy,/ˈæɡrɪkʌltʃər/
 50,accomplice,noun,đồng phạm/kẻ tòng phạm,The police arrested the thief and his accomplice,/əˈkʌmplɪs/
 50,assuage,verb,làm dịu/làm khuây khỏa (nỗi đau),He tried to assuage her grief,/əˈsweɪdʒ/

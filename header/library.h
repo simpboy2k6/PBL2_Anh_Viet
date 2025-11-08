@@ -8,7 +8,7 @@
 #include"HashTable.h"
 #include"Grammar.h"
 #include<windows.h>
-
+#include<chrono>
 extern int id;
 extern std::string name,password;
 extern Vector<User> UserList;
@@ -33,6 +33,8 @@ void MainMenu(User*&, HashTable<Word>&, Vector<Grammar>&);
 void AdminMode(User*&, HashTable<Word>&, Vector<Grammar>&);
 void AddNewWord(HashTable<Word>&);
 void CheckRequest();
+void ReadUpdateHistory();
+void ShowUpdateHistory();
 void ModifiedDictionary(HashTable<Word>&);
 void ModifiedWord(HashTable<Word>&,int, int&);
 void SearchGrammar(Vector<Grammar>&,User*&);
