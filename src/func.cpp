@@ -671,21 +671,46 @@ void FindGrammar(Vector<Grammar>& gList,User*& currentUser) {
     getline(cin, keyword);
 
     if (keyword == "0") return;
-
+    
     for(char &c : keyword) { c = tolower(c); }
-
+    Vector<int> tmp;
+    int distance = INT_MAX,index_tmp,dem =1;
+    for(int i=0;i<gList.getsize();i++){
+        index_tmp = DistanceLevenshtein(keyword,gList[i].GetName());
+        tmp.pb(index_tmp);      // dùng Distance Leveinstain để tìm số thao tác của từng chuỗi
+        distance = min(distance, index_tmp);
+    }
+    now = chrono::system_clock::now();
+    CurrentTime = chrono::system_clock::to_time_t(now);
     bool found = false;
     for (int i = 0; i < gList.getsize(); ++i) {
         string ruleName = gList[i].GetName();
         for(char &c : ruleName) { c = tolower(c); }
         if (ruleName.find(keyword) != string::npos) {
             gList[i].GetInfoRule(); // In thông tin nếu tìm thấy
-            currentUser->addHistory(gList[i].GetName());
+            currentUser->addHistory(gList[i].GetName()+" | Time:"+ ctime(&CurrentTime));
             found = true;
         }
     }
+    
     if (!found) {
+        Vector<int> GoiY;
         cout << "Khong tim thay quy tac ngu phap phu hop.\n";
+        cout << "Cac Ngu Phap goi y:\n";
+        for(int i=0;i<tmp.getsize();i++){
+            if(tmp[i] == distance){
+                GoiY.pb(i);
+                cout<<"["<<dem++<<"]:";
+                cout<<gList[i].GetName()<<"\n";
+            }
+        }
+        int choice;
+        cout<<"Hay lua chon Ngu Phap ban muon:";cin>>choice;
+        if(choice>0 && choice <=dem){
+            gList[choice-1].GetInfoRule();
+            currentUser->addHistory(gList[choice-1].GetName()+" | Time:"+ ctime(&CurrentTime));
+        }
+        pauseScreen();
     }
     pauseScreen();
 }
@@ -760,4 +785,30 @@ void SearchWord(HashTable<Word>& Dictionary, User*& currentUser)
     }
     Search(Dictionary, word, currentUser);
     pauseScreen();
+}
+
+int DistanceLevenshtein(const std::string& s1,const std::string& s2){
+    int l1= s1.size(), l2 = s2.size();
+    int dp[l1+1][l2+1];
+    for(int i=0;i<=l1;i++){
+        dp[i][0]=i;             //đếm thao tác để ""  thành s1[1..i]
+    }
+    for(int i=0;i<=l2;i++){
+        dp[0][i]=i;             // đếm thao tác để ""  thành s2[1..i]
+    }
+    int replace,dele,append;
+    for(int i=1;i<=l1;i++){
+        for(int j=1;j<=l2;j++){
+            int cost = (s1[i-1] == s2[j-1])? 0:1;
+
+            replace = dp[i-1][j-1] + cost;  // thao tác thay
+            dele = dp[i-i][j] +1;           // thao tác xóa
+            append = dp[i][j-1] +1;         // thao tác chèn thêm
+
+            int nho =min(replace,dele);
+            nho =min(nho,append);
+            dp[i][j]= nho;
+        }
+    }
+    return dp[l1][l2];
 }

@@ -43,4 +43,5 @@ void AllGrammar(Vector<Grammar>&,User*&);
 void SearchWord(HashTable<Word>&, User*&);
 void clearScreen();
 void pauseScreen();
+int DistanceLevenshtein(const std::string&,const std::string&);
 
