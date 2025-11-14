@@ -23,26 +23,27 @@ void option()
 }
 void readfile(ifstream& in,Vector<User>& v)
 {
-    string s="1",init;
+    string s;
     int i=0;
-    User u(i,init,init);
-    //int k=0;
+    
     while(getline(in,s)){             // kiểm tra xem luồng stream trong file in đã hết chưa
-        //k++;
-        if(s=="")continue;
         i=0;
+        User u;
         stringstream ss(s);
+        
         while(getline(ss,s,',')){
+            //cout<<s<<" ";
             if(i==0){
-                u.name=s;
+                u.SetUserName(s);
             }else if(i==1){
-                u.password=s;
-            }else u.userid= stoi(s);
+                u.SetUserPassword(s);
+            }else u.SetUserid(stoi(s));
             i++;
+            //cout<<i<<" ";
         }
+        //cout<<endl;
         v.pb(u);
     }
-    //cout<<"chay trong "<<k<<"lan"<<endl;
 }
 void ReadRequest(){
     string s;
@@ -205,7 +206,7 @@ void LoginMenu(User*& currentUser, Vector<User>& UserList, int& id, ofstream& wr
     }
 }
 
-void MainMenu(User*& currentUser, HashTable<Word>& Dictionary, Vector<Grammar>& gList) {
+void MainMenu(User*& currentUser, HashTable<Word*>& Dictionary, Vector<Grammar>& gList) {
     int choice = 0;
     string s;
     while (true) {
@@ -288,7 +289,7 @@ void MainMenu(User*& currentUser, HashTable<Word>& Dictionary, Vector<Grammar>& 
         }
     }
 }
-void AdminMode(User*& currentUser, HashTable<Word>& Dictionary, Vector<Grammar>& gList){
+void AdminMode(User*& currentUser, HashTable<Word*>& Dictionary, Vector<Grammar>& gList){
     cout<<"Hãy nhập mật khẩu của Admin Mode:";
     string s;
     getline(cin,s);
@@ -369,7 +370,7 @@ void ShowUpdateHistory(){
         cout<<UpdateHistory[i]<<"\n";
     }
 }
-void ModifiedDictionary(HashTable<Word>& Dictionary){
+void ModifiedDictionary(HashTable<Word*>& Dictionary){
     while(true){
         string word;
         Vector<int> v_index;
@@ -377,6 +378,7 @@ void ModifiedDictionary(HashTable<Word>& Dictionary){
         cout<<"Nhập từ bạn muốn chỉnh sửa tại đây(0: Thoát):";
         getline(cin,word);
         if(word == "0")break;
+
         countword = 0;value =0;
         for(int i=0;i<word.size();i++){
             word[i]= tolower(word[i]);
@@ -384,7 +386,7 @@ void ModifiedDictionary(HashTable<Word>& Dictionary){
         }                                           
         key = Dictionary.getkey(value);            
         for(int i=0;i<Dictionary[key].getsize();i++){
-            if(Dictionary[key][i].GetId() == value && word == Dictionary[key][i].GetName()){  
+            if(Dictionary[key][i]->GetId() == value && word == Dictionary[key][i]->GetName()){  
                 countword++;                                // check xem đã có từ đó trong Dictionaty chưa
                 v_index.pb(i);
             }
@@ -397,7 +399,7 @@ void ModifiedDictionary(HashTable<Word>& Dictionary){
             cout<<"Đây là các từ tương ứng trong từ điển:\n";
             for(int i=0;i<v_index.getsize();i++){
                 cout<<"["<<i+1<<"]";
-                Dictionary[key][v_index[i]].GetInfoWord();
+                Dictionary[key][v_index[i]]->GetInfoWord();
             }
             cout<<"Bạn muốn chỉnh sửa từ nào(0: không chọn):";
             cin>>index;
@@ -413,50 +415,158 @@ void ModifiedDictionary(HashTable<Word>& Dictionary){
     }
 
 }
-void ModifiedWord(HashTable<Word>& Dictionary,int key, int& index){
+void ModifiedWord(HashTable<Word*>& Dictionary,int key, int& index){
     string choice;string update;
-    while(true){
-        Dictionary[key][index].GetInfoWord();
-        cout<<"[1]:Thay đổi nghĩa\n";
-        cout<<"[2]:Thay đổi từ loại\n";
-        cout<<"[3]:Thay đổi ví dụ\n";
-        cout<<"[4]:Thay đổi cách phát âm\n";
-        cout<<"[5]:Xóa từ này\n";
-        cout<<"Bạn muốn lựa chọn cái nào (0: Thoát):";
-        getline(cin,choice);
-        
-        if(choice == "5"){
-            now = chrono::system_clock::now();
-            CurrentTime = chrono::system_clock::to_time_t(now);
-            UpdateHistory.pb("Delete word: "+ Dictionary[key][index].GetName()+" | Time :"+ ctime(&CurrentTime));
-            Dictionary[key].Erase(index);
-            cout<<"Đã xóa thành công\n";
-            pauseScreen();
+    if(Dictionary[key][index]->GetType()=="verb"){
+        Verb *DongTu = static_cast<Verb*>(Dictionary[key][index]);
+        while(true){
+            DongTu->GetInfoWord();
+            cout<<"[1]:Thay đổi nghĩa\n";
+            cout<<"[2]:Thay đổi ví dụ\n";
+            cout<<"[3]:Thay đổi cách phát âm\n";
+            cout<<"[4]:Xóa từ này\n";
+            cout<<"[5]:Thay đổi V2\n";                  // chỉnh sửa đối với Động Từ
+            cout<<"[6]:Thay đổi V3\n";
+            cout<<"Bạn muốn lựa chọn cái nào (0: Thoát):";
+            getline(cin,choice);
+            
+            if(choice == "4"){
+                now = chrono::system_clock::now();
+                CurrentTime = chrono::system_clock::to_time_t(now);
+                UpdateHistory.pb("Delete word: "+ Dictionary[key][index]->GetName()+" | Time :"+ ctime(&CurrentTime));
+                Dictionary[key].Erase(index);
+                cout<<"Đã xóa thành công\n";
+                pauseScreen();
+                clearScreen();
+                break;
+            }else if(choice == "6"){
+                cout<<"Nhập V3 mới:";
+                getline(cin,update);
+                DongTu->SetV3(update);
+            }else if(choice == "5"){
+                cout<<"Nhập V2 mới:";
+                getline(cin,update);
+                DongTu->SetV2(update);
+            }else if(choice == "2"){
+                cout<<"Nhập ví dụ mới:";
+                getline(cin,update);
+                DongTu->SetExample(update);
+            }else if(choice == "3"){
+                cout<<"Nhập cách phát âm mới:";
+                getline(cin,update);
+                DongTu->SetPronounce(update);
+            }else if(choice == "1"){
+                cout<<"Nhập nghĩa mới:";
+                getline(cin,update);
+                DongTu->SetMean(update);
+            }else if(choice == "0" ){
+                clearScreen();
+                break;
+            }else{
+                cout<<"Lựa chọn không hợp lệ\n";
+            }
             clearScreen();
-            break;
-        }else if(choice == "4"){
-            cout<<"Nhập cách phát âm mới:";
-            getline(cin,update);
-            Dictionary[key][index].SetPronounce(update);
-        }else if(choice == "2"){
-            cout<<"Nhập ví dụ mới:";
-            getline(cin,update);
-            Dictionary[key][index].SetExample(update);
-        }else if(choice == "3"){
-            cout<<"Nhập từ loại mới:";
-            getline(cin,update);
-            Dictionary[key][index].SetType(update);
-        }else if(choice == "1"){
-            cout<<"Nhập nghĩa mới:";
-            getline(cin,update);
-            Dictionary[key][index].SetMean(update);
-        }else if(choice == "0" ){
-            clearScreen();
-            break;
-        }else{
-            cout<<"Lựa chọn không hợp lệ\n";
         }
-        clearScreen();
+    }else if(Dictionary[key][index]->GetType()=="noun"){
+        Noun *DanhTu = static_cast<Noun*>(Dictionary[key][index]);
+        while(true){
+            DanhTu->GetInfoWord();
+            cout<<"[1]:Thay đổi nghĩa\n";
+            cout<<"[2]:Thay đổi ví dụ\n";
+            cout<<"[3]:Thay đổi cách phát âm\n";            // chỉnh sửa đối với Danh Từ
+            cout<<"[4]:Xóa từ này\n";
+            cout<<"[5]:Thay đổi thông tin có đếm được không?\n";
+            cout<<"[6]:Thay đổi dạng số nhiều\n";
+            cout<<"Bạn muốn lựa chọn cái nào (0: Thoát):";
+            getline(cin,choice);
+            
+            if(choice == "4"){
+                now = chrono::system_clock::now();
+                CurrentTime = chrono::system_clock::to_time_t(now);
+                UpdateHistory.pb("Delete word: "+ Dictionary[key][index]->GetName()+" | Time :"+ ctime(&CurrentTime));
+                Dictionary[key].Erase(index);
+                cout<<"Đã xóa thành công\n";
+                pauseScreen();
+                clearScreen();
+                break;
+            }else if(choice == "6"){
+                cout<<"Nhập dạng số nhiều mới:";
+                getline(cin,update);
+                DanhTu->SetSoNhieu(update);
+            }else if(choice == "5"){
+                cout<<"Nhập thông tin có đếm được không(đếm được hoặc không đếm được):";
+                getline(cin,update);
+                DanhTu->SetDemDuoc(update);
+            }else if(choice == "2"){
+                cout<<"Nhập ví dụ mới:";
+                getline(cin,update);    
+                DanhTu->SetExample(update);
+            }else if(choice == "3"){
+                cout<<"Nhập cách phát âm mới:";
+                getline(cin,update);
+                DanhTu->SetPronounce(update);
+            }else if(choice == "1"){
+                cout<<"Nhập nghĩa mới:";
+                getline(cin,update);
+                DanhTu->SetMean(update);
+            }else if(choice == "0" ){
+                clearScreen();
+                break;
+            }else{
+                cout<<"Lựa chọn không hợp lệ\n";
+            }
+            clearScreen();
+        }
+    }else if(Dictionary[key][index]->GetType()=="adjective"){
+        Adj *TinhTu = static_cast<Adj*>(Dictionary[key][index]);
+        while(true){
+            TinhTu->GetInfoWord();
+            cout<<"[1]:Thay đổi nghĩa\n";
+            cout<<"[2]:Thay đổi ví dụ\n";
+            cout<<"[3]:Thay đổi cách phát âm\n";                // chỉnh sửa đối với Tính Từ
+            cout<<"[4]:Xóa từ này\n";
+            cout<<"[5]:Thay đổi dạng so sánh hơn\n";
+            cout<<"[6]:Thay đổi dạng so sánh Nhất\n";
+            cout<<"Bạn muốn lựa chọn cái nào (0: Thoát):";
+            getline(cin,choice);
+            
+            if(choice == "4"){
+                now = chrono::system_clock::now();
+                CurrentTime = chrono::system_clock::to_time_t(now);
+                UpdateHistory.pb("Delete word: "+ Dictionary[key][index]->GetName()+" | Time :"+ ctime(&CurrentTime));
+                Dictionary[key].Erase(index);
+                cout<<"Đã xóa thành công\n";
+                pauseScreen();
+                clearScreen();
+                break;
+            }else if(choice == "6"){
+                cout<<"Nhập dạng so sánh nhất mới:";
+                getline(cin,update);
+                TinhTu->SetSoSanhNhat(update);
+            }else if(choice == "5"){
+                cout<<"Nhập dạng so sánh hơn mới:";
+                getline(cin,update);
+                TinhTu->SetSoSanhHon(update);
+            }else if(choice == "2"){
+                cout<<"Nhập ví dụ mới:";
+                getline(cin,update);    
+                TinhTu->SetExample(update);
+            }else if(choice == "3"){
+                cout<<"Nhập cách phát âm mới:";
+                getline(cin,update);
+                TinhTu->SetPronounce(update);
+            }else if(choice == "1"){
+                cout<<"Nhập nghĩa mới:";
+                getline(cin,update);
+                TinhTu->SetMean(update);
+            }else if(choice == "0" ){
+                clearScreen();
+                break;
+            }else{
+                cout<<"Lựa chọn không hợp lệ\n";
+            }
+            clearScreen();
+        }
     }
 }
 
@@ -476,7 +586,7 @@ void CheckRequest(){
     }
 }
 // Chức năng thêm từ của Admin Mode
-void AddNewWord(HashTable<Word>& Dictionary){
+void AddNewWord(HashTable<Word*>& Dictionary){
     string word,type,example,pronounce,mean;
     while(true){
         cout << "=== THEM TU MOI ===\n";
@@ -490,7 +600,7 @@ void AddNewWord(HashTable<Word>& Dictionary){
         }                                           
         key = Dictionary.getkey(value);            
         for(int i=0;i<Dictionary[key].getsize();i++){
-            if(Dictionary[key][i].GetId() == value && word == Dictionary[key][i].GetName()){  
+            if(Dictionary[key][i]->GetId() == value && word == Dictionary[key][i]->GetName()){  
                 countword++;                                // check xem đã có từ đó trong Dictionaty chưa
             }
         }
@@ -506,9 +616,52 @@ void AddNewWord(HashTable<Word>& Dictionary){
             getline(cin,example);
             cout <<"Nhập cách phát âm của từ đó:";
             getline(cin,pronounce);
-            Word w(value,word,type,mean,example,pronounce);
-
-            Dictionary[key].pb(w);
+            if(type == "verb"){
+                Verb *DongTu = new Verb();
+                DongTu->SetName(word);
+                DongTu->SetMean(mean);
+                DongTu->SetType(type);
+                DongTu->SetExample(example);
+                DongTu->SetPronounce(pronounce);
+                cout <<"Nhập V2 của từ đó:";
+                string V2,V3;
+                getline(cin,V2);
+                cout <<"Nhập V3 của từ đó:";
+                getline(cin,V3);
+                DongTu->SetV2(V2);
+                DongTu->SetV3(V3);
+                Dictionary.hash(DongTu,Dictionary.getkey(DongTu->GetId()));
+            }else if(type == "noun"){
+                Noun *DanhTu = new Noun();
+                DanhTu->SetName(word);
+                DanhTu->SetMean(mean);
+                DanhTu->SetType(type);
+                DanhTu->SetExample(example);
+                DanhTu->SetPronounce(pronounce);
+                cout <<"Từ đó có đếm được không( đếm được hoặc không đếm được):";
+                string demduoc,sonhieu;
+                getline(cin,demduoc);
+                cout <<"Nhập dạng số nhiều của từ đó:";
+                getline(cin,sonhieu);
+                DanhTu->SetDemDuoc(demduoc);
+                DanhTu->SetSoNhieu(sonhieu);
+                Dictionary.hash(DanhTu,Dictionary.getkey(DanhTu->GetId()));
+            }else if(type == "adjective"){
+                Adj *TinhTu = new Adj();
+                TinhTu->SetName(word);
+                TinhTu->SetMean(mean);
+                TinhTu->SetType(type);
+                TinhTu->SetExample(example);
+                TinhTu->SetPronounce(pronounce);
+                cout <<"Nhập dạng so sánh hơn của từ đó:";
+                string ssh,ssn;
+                getline(cin,ssh);
+                cout <<"Nhập dạng so sánh nhất của từ đó:";
+                getline(cin,ssn);
+                TinhTu->SetSoSanhHon(ssh);
+                TinhTu->SetSoSanhNhat(ssn);
+                Dictionary.hash(TinhTu,Dictionary.getkey(TinhTu->GetId()));
+            }
             cout<<"Đã thêm từ thành công\n";
             now = chrono::system_clock::now();
             CurrentTime = chrono::system_clock::to_time_t(now);
@@ -544,7 +697,7 @@ void viewHistory(User*& currentUser) {
 }
 
 // T cập nhật hàm Search để lưu lịch sử tìm kiếm vào User hiện tại
-void Search(HashTable<Word>& Dictionary, string& word, User*& currentUser)
+void Search(HashTable<Word*>& Dictionary, string& word, User*& currentUser)
 {
     countword = 0;value =0;
     for(int i=0;i<word.size();i++){
@@ -565,9 +718,17 @@ void Search(HashTable<Word>& Dictionary, string& word, User*& currentUser)
     now = chrono::system_clock::now();
     CurrentTime = chrono::system_clock::to_time_t(now);
     for(int i=0;i<Dictionary[key].getsize();i++){
-        if(Dictionary[key][i].GetId() == value && word == Dictionary[key][i].GetName()){  
-                   
-            Dictionary[key][i].GetInfoWord();
+        if(Dictionary[key][i]->GetId() == value && word == Dictionary[key][i]->GetName()){  
+            if(Dictionary[key][i]->GetType() == "verb"){
+                Verb *DongTu = static_cast<Verb*>(Dictionary[key][i]);
+                DongTu->GetInfoWord();
+            }else if(Dictionary[key][i]->GetType() == "noun"){
+                Noun *DanhTu = static_cast<Noun*>(Dictionary[key][i]);      // in ra tùy vào kiểu 
+                DanhTu->GetInfoWord();
+            }else if(Dictionary[key][i]->GetType() == "adjective"){
+                Adj *TinhTu = static_cast<Adj*>(Dictionary[key][i]);
+                TinhTu->GetInfoWord();
+            }
             if(countword==0){
                 currentUser->addHistory(word + " | Time : "+ ctime(&CurrentTime)); // Lưu từ tìm kiếm vào lịch sử của User hiện tại
 
@@ -586,41 +747,101 @@ void Search(HashTable<Word>& Dictionary, string& word, User*& currentUser)
     }
 }
 
-void readvocal(HashTable<Word>& Dictionary,ifstream& vocabulary)
+void readvocal(HashTable<Word*>& Dictionary,ifstream& vocabulary)
 {
-    int i;
-    string s;
-    while(getline(vocabulary,s)){
-        if(s=="") continue;
-        i=0;
-        stringstream ss(s);
-        while(getline(ss,s,',')){
-            if(i==1){
-                W.SetName(s);
-            }else if(i==3){
-                W.SetMean(s);
+    string line,token,loai,name,example,pronouce,extra1,extra2,mean;
+    while(getline(vocabulary,line)){
+        if (line == "") continue;
+        cout << "s:" << line << "\n";
+        stringstream ss(line);
+        int i=0;
+
+        Word* W = nullptr;
+        Verb* dongtu = nullptr;
+        Noun* danhtu = nullptr;
+        Adj* tinhtu = nullptr;
+
+        while(getline(ss,token,',')){
+            if(i==0){
+
+            }else if(i==1){
+                name = token;
             }else if(i==2){
-                W.SetType(s);
+                loai = token;
+            }else if(i==3){
+                mean = token;
             }else if(i==4){
-                W.SetExample(s);
+                example = token;
             }else if(i==5){
-                W.SetPronounce(s);
+                pronouce = token;
+            }else if(i==6){
+                extra1 = token;
+            }else if(i==7){
+                extra2 = token;
             }
             i++;
         }
-        Dictionary.hash(W);
-    }
 
+        if(loai == "verb"){
+            dongtu = new Verb();
+            W = dongtu;
+            W->SetName(name);
+            W->SetType(loai);
+            W->SetExample(example);
+            W->SetMean(mean);
+            W->SetPronounce(pronouce);
+            dongtu->SetV2(extra1);
+            dongtu->SetV3(extra2);
+        }else if(loai == "noun"){
+            danhtu = new Noun();
+            W = danhtu;
+            W->SetName(name);
+            W->SetType(loai);
+            W->SetExample(example);
+            W->SetMean(mean);
+            W->SetPronounce(pronouce);
+            danhtu->SetDemDuoc(extra1);
+            danhtu->SetSoNhieu(extra2);
+        }else if( loai == "adjective"){
+            tinhtu = new Adj();
+            W = tinhtu;
+            W->SetName(name);
+            W->SetType(loai);
+            W->SetExample(example);
+            W->SetMean(mean);
+            W->SetPronounce(pronouce);
+            tinhtu->SetSoSanhHon(extra1);
+            tinhtu->SetSoSanhNhat(extra2);
+        }
+        Dictionary.hash(W,Dictionary.getkey(W->GetId()));
+    }
+    cout << "exit\n";
+    
 }
-void luu_vocalbulary(HashTable<Word>& Dictionary, ofstream& write){
+void luu_vocalbulary(HashTable<Word*>& Dictionary, ofstream& write){
     for(int i=0; i <Dictionary.getcapacity();i++){
         for(int j=0;j<Dictionary[i].getsize();j++){
             write<<i<<",";
-            write<<Dictionary[i][j].GetName()<<",";
-            write<<Dictionary[i][j].GetType()<<",";
-            write<<Dictionary[i][j].GetMean()<<",";
-            write<<Dictionary[i][j].GetExample()<<",";
-            write<<Dictionary[i][j].GetPronounce()<<"\n";
+            write<<Dictionary[i][j]->GetName()<<",";
+            write<<Dictionary[i][j]->GetType()<<",";
+            write<<Dictionary[i][j]->GetMean()<<",";
+            write<<Dictionary[i][j]->GetExample()<<",";
+            write<<Dictionary[i][j]->GetPronounce()<<",";
+            if(Dictionary[i][j]->GetType() == "verb"){
+
+                Verb *DongTu = static_cast<Verb*>(Dictionary[i][j]);
+                write << DongTu->GetV2()<<","<<DongTu->GetV3()<<"\n";
+
+            }else if(Dictionary[i][j]->GetType() == "noun"){
+
+                Noun *DanhTu = static_cast<Noun*>(Dictionary[i][j]);
+                write << DanhTu->GetDemDuoc()<<","<<DanhTu->GetSoNhieu()<<"\n";
+
+            }else if(Dictionary[i][j]->GetType() == "adjective"){
+                Adj *TinhTu = static_cast<Adj*>(Dictionary[i][j]);
+                write << TinhTu->GetSoSanhHon()<<","<<TinhTu->GetSoSanhNhat()<<"\n";
+            }
+            delete Dictionary[i][j];
         }
     }
 }
@@ -770,7 +991,7 @@ void SearchGrammar(Vector<Grammar>& gList,User*& currentUser) {
     }
 }
 
-void SearchWord(HashTable<Word>& Dictionary, User*& currentUser)
+void SearchWord(HashTable<Word*>& Dictionary, User*& currentUser)
 {
     clearScreen();
     cout << "+----------------------------------------+\n";

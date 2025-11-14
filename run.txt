@@ -1,3 +1,2 @@
-g++ -Iheader src/User.cpp src/main.cpp src/func.cpp src/Word.cpp src/Grammar.cpp -o run
+g++ -Iheader src/Adj.cpp src/Noun.cpp src/Verb.cpp src/User.cpp src/main.cpp src/func.cpp src/Word.cpp src/Grammar.cpp -o run
 
-password AdminMode: Admin is here

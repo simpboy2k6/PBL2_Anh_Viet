@@ -2,7 +2,7 @@
 #include <string>
 #include<iostream>
 class Word{
-    private:
+    protected:
         int idWord;
         std::string name;
         std::string mean;
@@ -11,9 +11,9 @@ class Word{
         std::string type;
     public:
         Word(const int =0,std::string ="",std::string ="",std::string="",std::string ="",std::string ="");
-        ~Word();
+        virtual ~Word();
         int GetId() const;
-        void GetInfoWord();
+        virtual void GetInfoWord();       
         void SetName(const std::string);
         void SetMean(const std::string);
         void SetExample(const std::string);
@@ -25,4 +25,6 @@ class Word{
         std::string GetExample()const;
         std::string GetPronounce() const ;
         std::string GetType()const;
+        Word& operator=(const Word& other);
+        Word(const Word& other);
 };

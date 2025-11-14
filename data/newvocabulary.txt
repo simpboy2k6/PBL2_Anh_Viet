@@ -1,0 +1,20 @@
+1,accompany,verb,đi cùng/hộ tống,Children must be accompanied by an adult,/əˈkʌmpəni/,accompanied,accompanied
+3,above,noun,ở trên,The plane flew above the clouds,/əˈbʌv/,đếm được,aboves
+8,ability,noun,khả năng,He has the ability to solve complex problems,/əˈbɪləti/,đếm được,abilities
+9,abuse,noun,sự lạm dụng,Drug abuse is a serious problem,/əˈbjuːs/,đếm được/không đếm được,abuses
+16,accident,noun,tai nạn,He was injured in a car accident,/ˈæksɪdənt/,đếm được,accidents
+21,able,adjective,có thể,She is able to swim across the river,/ˈeɪbl/,more able,most able
+32,accurate,adjective,chính xác,The report must be accurate,/ˈækjərət/,more accurate,most accurate
+40,absorb,verb,hấp thụ,The sponge absorbs water quickly,/əbˈzɔːb/,absorbed,absorbed
+44,absolute,adjective,tuyệt đối,I have absolute trust in her,/ˈæbsəluːt/,more absolute,most absolute
+47,achieve,verb,đạt được,She worked hard to achieve her goals,/əˈtʃiːv/,achieved,achieved
+52,accept,verb,chấp nhận,Please accept my apology,/əkˈsept/,accepted,accepted
+60,abandon,verb,từ bỏ,The sailors abandoned the sinking ship,/əˈbændən/,abandoned,abandoned
+61,access,noun,sự truy cập,Students need access to the library,/ˈækses/,không đếm được,access
+64,abroad,noun,ở nước ngoài,He decided to study abroad,/əˈbrɔːd/,không đếm được,abroad
+72,academic,adjective,thuộc về học thuật,She has an impressive academic record,/ˌækəˈdemɪk/,more academic,most academic
+74,about,noun,về/khoảng,We talked about the future,/əˈbaʊt/,không đếm được,about
+76,according to,noun,theo như,According to the news, it will rain tomorrow,/əˈkɔːdɪŋ tuː/,không đếm được
+93,absence,noun,sự vắng mặt,Her absence from the meeting was noted,/ˈæbsəns/,đếm được,absences
+93,account,noun,tài khoản,I need to check my bank account,/əˈkaʊnt/,đếm được,accounts
+94,apple,noun,quả táo,This is an apple,/apleru/,đếm được,apples

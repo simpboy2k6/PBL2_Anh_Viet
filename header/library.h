@@ -9,6 +9,10 @@
 #include"Grammar.h"
 #include<windows.h>
 #include<chrono>
+#include"Adj.h"
+#include"Noun.h"
+#include"Verb.h"
+
 extern int id;
 extern std::string name,password;
 extern Vector<User> UserList;
@@ -21,26 +25,26 @@ void option();
 void UI();
 void readfile(std::ifstream&, Vector<User>&);
 void showinfo(Vector<User>&);
-void readvocal(HashTable<Word>&, std::ifstream&);
+void readvocal(HashTable<Word*>&, std::ifstream&);
 void ReadRequest();
 void ShowRequest();
 void readGrammar(std::ifstream&, Vector<Grammar>&);
-void luu_vocalbulary(HashTable<Word>&, std::ofstream&);
-void Search(HashTable<Word>&, std::string&, User*&);
+void luu_vocalbulary(HashTable<Word*>&, std::ofstream&);
+void Search(HashTable<Word*>&, std::string&, User*&);
 void viewHistory(User*&);
 void LoginMenu(User*&, Vector<User>&, int&, std::ofstream&);
-void MainMenu(User*&, HashTable<Word>&, Vector<Grammar>&);
-void AdminMode(User*&, HashTable<Word>&, Vector<Grammar>&);
-void AddNewWord(HashTable<Word>&);
+void MainMenu(User*&, HashTable<Word*>&, Vector<Grammar>&);
+void AdminMode(User*&, HashTable<Word*>&, Vector<Grammar>&);
+void AddNewWord(HashTable<Word*>&);
 void CheckRequest();
 void ReadUpdateHistory();
 void ShowUpdateHistory();
-void ModifiedDictionary(HashTable<Word>&);
-void ModifiedWord(HashTable<Word>&,int, int&);
+void ModifiedDictionary(HashTable<Word*>&);
+void ModifiedWord(HashTable<Word*>&,int, int&);
 void SearchGrammar(Vector<Grammar>&,User*&);
 void FindGrammar(Vector<Grammar>&,User*&);
 void AllGrammar(Vector<Grammar>&,User*&);
-void SearchWord(HashTable<Word>&, User*&);
+void SearchWord(HashTable<Word*>&, User*&);
 void clearScreen();
 void pauseScreen();
 int DistanceLevenshtein(const std::string&,const std::string&);

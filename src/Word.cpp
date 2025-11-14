@@ -5,7 +5,8 @@ int countname;
 Word::Word(const int x,string a,string b,string c,string d,string e)
     :idWord(x),name(a),type(b),mean(c),example(d),pronounce(e)
 {}
-Word::~Word(){}
+Word::~Word(){
+}
 
 int Word::GetId() const{
     return this->idWord;
@@ -67,7 +68,6 @@ string Word::GetPronounce()const{
 string Word::GetType()const{
     return this->type;
 }
-
 
 
 
