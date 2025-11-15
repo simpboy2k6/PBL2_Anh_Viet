@@ -27,10 +27,10 @@ Vector<T>::Vector(int const capacity)
     :capacity(capacity)
 {
     this->arr = new T[capacity];
-    if constexpr (std::is_pointer<T>::value) {
+    /*if constexpr (std::is_pointer<T>::value) {
         for (int i = 0; i < this->capacity; i++)
             this->arr[i] = nullptr;
-    }
+    }*/
 }
 template<typename T>
 Vector<T>::~Vector(){
@@ -49,10 +49,10 @@ void Vector<T>::pb(const T x){
         this->capacity *= 2;
         T* new_arr = new T[this->capacity];
 
-        if constexpr (std::is_pointer<T>::value) {
+        /*if constexpr (std::is_pointer<T>::value) {
             for (int i = 0; i < this->capacity; i++)
                 new_arr[i] = nullptr;
-        }
+        }*/
 
         for (int i = 0; i < old_capacity; i++) {
             new_arr[i] = this->arr[i];
@@ -113,17 +113,14 @@ Vector<T>::Vector(const Vector& other)
     }
 }
 
-// 2. COPY ASSIGNMENT OPERATOR (Toán tử gán sao chép)
 template<typename T>
 Vector<T>& Vector<T>::operator=(const Vector& other) {
     if (this != &other) { // Kiểm tra tự gán (self-assignment)
         
         delete[] this->arr;
-        std::cout<<"Khoi tao ham vector sao chep operator=:\n";
-        // 2. Sao chép các thành viên dữ liệu (curr, capacity)
         this->capacity = other.capacity;
         this->curr = other.curr;
-        // 3. Cấp phát vùng nhớ mới và sao chép sâu
+
         this->arr = new T[this->capacity];
         for (int i = 0; i < this->curr; i++) {
             this->arr[i] = other.arr[i];
